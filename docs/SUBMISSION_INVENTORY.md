@@ -20,7 +20,7 @@ Source documents (canonical copies in `text/npp_revision_2026/`):
 
 | Asset | Description | Committed output |
 |-------|-------------|------------------|
-| Supplementary Figure S1 | Body weight vs post-bolus CADSS total | `output/revision/figures/Figure_S_calibtemp_pain_slopes.png` (script); `Supplementary_Figure_S1_weight_cadss_submitted.png` (embedded snapshot) |
+| Supplementary Figure S1 | Body weight vs post-infusion CADSS (session average) | `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.png` (script); legacy `Figure_S_calibtemp_pain_slopes.png` |
 | Supplementary Figure S2 | ROI activation vs calibrated temperature (placebo vs ketamine) | `output/revision/figures/Supplementary_Figure_S2_roi_calib_temperature.png` (frozen from submitted docx) |
 | Supplementary Figure S3 | Within-network connectivity | `output/revision/figures/Supplementary_Figure_S3_connectivity.png` (from `output/figures/connectivity_all_networks.png`) |
 

@@ -89,7 +89,7 @@ Writes to `output/revision/tables/` (and related `output/tables/` from the Rmd).
 Rscript code/revision/plot_dose_equivalence.R
 ```
 
-Writes `output/revision/figures/Figure_S_calibtemp_pain_slopes.png` (and `.pdf`).
+Writes `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.png` (and `.pdf`; legacy copies as `Figure_S_calibtemp_pain_slopes.*`).
 
 ### All steps
 

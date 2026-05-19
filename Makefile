@@ -20,6 +20,6 @@ dose-equiv:
 	Rscript code/revision/plot_dose_equivalence.R
 
 check: verify
-	@test -f output/revision/figures/Figure_S_calibtemp_pain_slopes.png
+	@test -f output/revision/figures/Figure_S_dose_equivalence_weight_cadss.png
 	@test -f output/revision/tables/steiger_roi_session_corr_diff.csv
 	@echo "Key revision outputs present."

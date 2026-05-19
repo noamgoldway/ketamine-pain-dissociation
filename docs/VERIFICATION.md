@@ -6,7 +6,7 @@ Run from repository root (`submission/osf`):
 make verify
 ```
 
-Regenerate Supplementary Figure S1 (weight vs post-bolus CADSS):
+Regenerate Supplementary Figure S1 (weight vs post-infusion CADSS, session average):
 
 ```bash
 make dose-equiv
@@ -16,8 +16,8 @@ make dose-equiv
 
 | Claim | Manuscript value | Reproduced value | Status | Script / source |
 |-------|------------------|------------------|--------|-----------------|
-| Supp Fig S1 / dose equivalence | Pearson **r = 0.04**, **p = 0.86** (caption **p = 0.855**) | r = 0.036, p = 0.855 (`CADSS_total_post_session2`, n = 29) | **OK** | `code/revision/plot_dose_equivalence.R`; `data/CADSS_Weight_DoseEquivalence_Data.csv` |
-| Supp methods: post-bolus CADSS on ketamine session | Qualitative (no association) | Same as above | **OK** | `code/verify_manuscript_numbers.R` |
+| Supp Fig S1 / dose equivalence | Pearson **r = −0.056**, **p = 0.777**, **R² = 0.003** (n = 28) | r = −0.056, p = 0.777, R² = 0.003 (`CADSS_total_post_avg`) | **OK** | `code/revision/plot_dose_equivalence.R`; `data/CADSS_Weight_DoseEquivalence_Data.csv` |
+| Supp methods: post-infusion CADSS vs weight | Qualitative (no association) | Same as above | **OK** | `code/verify_manuscript_numbers.R` |
 | Demographics: body weight | **61.6 ± 9.4 kg** | mean 61.6, SD 9.4 (n = 36) | **OK** | `data/participants.csv` |
 | Rebuttal: post-bolus CADSS (ketamine) | mean **24.94**, SD **10.77**, range **5–48** | 24.94, 10.77, 5–48 (n = 33) | **OK** | `data/CADSS.csv` (sum of `_2_post` subscales) |
 | Main: NPS vs pain (high intensity) | Spearman **ρ = .64** (placebo), **ρ = .60** (ketamine) | 0.643, 0.604 | **OK** | `output/tables/nps_pain_corr_results.csv` ← `01_pain_ketamine_analysis_temp_covariate.r` |
@@ -34,15 +34,15 @@ make dose-equiv
 
 ## Manuscript docx check (revision/Final_files)
 
-- **Supplementary_Information_revision_clean.docx**: reports **r = 0.04**, **p = 0.86** (caption **p = 0.855**); **no** remaining **r = −0.056** / **p = 0.777** for S1.
+- **Supplementary_Information_revision_clean.docx**: confirm S1 caption matches **r = −0.056**, **p = 0.777** (session-averaged post-infusion CADSS; n = 28). Ketamine post-bolus only (`CADSS_total_post_session2`) gives r ≈ 0.04, p ≈ 0.86 and is not used for S1.
 - **Main_revision_clean.docx**: Steiger, calib-temp χ²/F, NPS ρ, demographics consistent with repo.
 - **rebuttal_letter.docx**: CADSS descriptives, χ²/F, pain LRT consistent with repo.
 
 The string `0.777` still appears in the supplementary docx inside **Supplementary Table S14** (S2(L) model **R²** column), not S1.
 
-## Historical note (resolved)
+## Figure S1 variable
 
-Earlier drafts used **`CADSS_total_post_avg`** (session-averaged post-infusion CADSS), giving **r = −0.056**, **p = 0.777**. The revised manuscript and repo now use **ketamine post-bolus** (`CADSS_total_post_session2` / `CADSS_*_2_post`).
+Supplementary Figure S1 uses **`CADSS_total_post_avg`** (mean of post-infusion CADSS totals across placebo and ketamine sessions per participant). Ketamine-only post-bolus (`CADSS_total_post_session2`) is a separate sensitivity (r ≈ 0.04, p ≈ 0.86).
 
 ## Not fully re-run in CI
 
@@ -52,5 +52,5 @@ Earlier drafts used **`CADSS_total_post_avg`** (session-averaged post-infusion C
 
 ## Minor repo hygiene (optional)
 
-- S1 figure files are named `Figure_S_calibtemp_pain_slopes.{png,pdf}` (legacy name); content is weight vs CADSS.
+- S1 primary outputs: `Figure_S_dose_equivalence_weight_cadss.{png,pdf}`; legacy copies `Figure_S_calibtemp_pain_slopes.{png,pdf}`.
 - `text/npp_revision_2026/` may lag `revision/Final_files/`; sync before OSF upload.

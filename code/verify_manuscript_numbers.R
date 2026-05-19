@@ -34,11 +34,12 @@ fail <- function(name, expected, observed, tol = 0.001) {
   invisible(ok)
 }
 
-# --- Supp Fig S1: weight vs post-bolus CADSS on ketamine session (r ≈ 0.04, p ≈ 0.86) ---
+# --- Supp Fig S1: weight vs session-averaged post-infusion CADSS (r = -0.056, p = 0.777) ---
 we <- read_csv(file.path(data_dir, "CADSS_Weight_DoseEquivalence_Data.csv"), show_col_types = FALSE)
-ct <- cor.test(we$weight_kg, we$CADSS_total_post_session2)
-fail("S1_pearson_r", 0.04, unname(ct$estimate), tol = 0.02)
-fail("S1_pearson_p", 0.86, ct$p.value, tol = 0.02)
+ct <- cor.test(we$weight_kg, we$CADSS_total_post_avg)
+fail("S1_n", 28, nrow(we), tol = 0)
+fail("S1_pearson_r", -0.056, unname(ct$estimate), tol = 0.002)
+fail("S1_pearson_p", 0.777, ct$p.value, tol = 0.01)
 
 # --- Demographics: mean weight 61.6 ± 9.4 kg (n may be 36 enrolled vs 28 in some analyses) ---
 pw <- read_csv(file.path(data_dir, "participants.csv"), show_col_types = FALSE)
