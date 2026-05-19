@@ -35,6 +35,13 @@ root_dir <- parse_cli_arg()
 if (is.null(root_dir)) root_dir <- Sys.getenv("ROOT_DIR", unset = NA_character_)
 if (is.na(root_dir) || root_dir == "") root_dir <- getOption("root_dir", default = NA)
 if (is.na(root_dir) || root_dir == "") {
+  cmd <- commandArgs(trailingOnly = FALSE)
+  file_arg <- sub("^--file=", "", cmd[grep("^--file=", cmd)])
+  if (length(file_arg)) {
+    root_dir <- normalizePath(file.path(dirname(file_arg[[1]]), ".."), mustWork = TRUE)
+  }
+}
+if (is.na(root_dir) || root_dir == "") {
   if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
   root_dir <- here::here()
 }
