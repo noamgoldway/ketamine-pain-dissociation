@@ -1,0 +1,16 @@
+Effect,df,F,p.value
+intensity,"1, 688.31",20.22 ***,<.001
+session,"1, 684.76",4.05 *,.045
+ROI,"6, 674.01",1.16,.324
+calib_temp,"1, 633.37",18.60 ***,<.001
+intensity:session,"1, 681.37",6.86 **,.009
+intensity:ROI,"6, 674.01",0.83,.545
+session:ROI,"6, 674.01",0.61,.726
+intensity:calib_temp,"1, 686.08",21.44 ***,<.001
+session:calib_temp,"1, 684.61",4.53 *,.034
+ROI:calib_temp,"6, 674.01",1.04,.399
+intensity:session:ROI,"6, 674.01",0.06,.999
+intensity:session:calib_temp,"1, 680.99",7.16 **,.008
+intensity:ROI:calib_temp,"6, 674.01",0.87,.515
+session:ROI:calib_temp,"6, 674.01",0.63,.706
+intensity:session:ROI:calib_temp,"6, 674.01",0.05,.999

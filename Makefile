@@ -3,9 +3,13 @@
 ROOT_DIR := $(CURDIR)
 export ROOT_DIR
 
-.PHONY: all main supplementary dose-equiv verify check
+.PHONY: all main supplementary dose-equiv verify check sync-s3
 
-all: main supplementary dose-equiv
+all: main supplementary dose-equiv sync-s3
+
+sync-s3:
+	@cp -f output/figures/connectivity_all_networks.png output/revision/figures/Supplementary_Figure_S3_connectivity.png 2>/dev/null || true
+	@cp -f output/figures/connectivity_all_networks.pdf output/revision/figures/Supplementary_Figure_S3_connectivity.pdf 2>/dev/null || true
 
 verify:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/verify_manuscript_numbers.R
@@ -14,7 +18,7 @@ main:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/01_pain_ketamine_analysis_temp_covariate.r
 
 supplementary:
-	ROOT_DIR="$(ROOT_DIR)" Rscript -e 'rmarkdown::render("code/02_supplementary_revision.Rmd", quiet = TRUE)'
+	cd code && ROOT_DIR="$(ROOT_DIR)" Rscript -e 'knitr::purl("02_supplementary_revision.Rmd", output = "_supp_run.R", quiet = TRUE); source("_supp_run.R"); file.remove("_supp_run.R")'
 
 dose-equiv:
 	Rscript code/revision/plot_dose_equivalence.R
