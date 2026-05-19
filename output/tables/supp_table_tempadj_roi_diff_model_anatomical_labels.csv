@@ -1,0 +1,15 @@
+Effect,df,statistic,p
+session1,340.73,-7.19,< .001
+Ant. Insula (L),337.09,0.89,0.372
+Ant. Insula (R),337.09,1.39,0.165
+dACC,337.09,1.77,0.077
+dlPFC (R),337.09,-0.9,0.367
+S1 (R),337.09,-2.66,0.008
+S2 (L),337.09,-0.71,0.476
+calib_spread,349.77,5.03,< .001
+session1:Ant. Insula (L),337.09,0.7,0.482
+session1:Ant. Insula (R),337.09,0.16,0.876
+session1:dACC,337.09,0.14,0.887
+session1:dlPFC (R),337.09,0.25,0.802
+session1:S1 (R),337.09,-1.05,0.295
+session1:S2 (L),337.09,0.1,0.918

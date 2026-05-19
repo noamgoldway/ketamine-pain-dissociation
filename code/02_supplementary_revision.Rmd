@@ -1,0 +1,253 @@
+---
+title: "Supplementary Revision Analyses"
+output: html_document
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+library(lme4)
+library(afex)
+library(emmeans)
+library(psych)
+
+root_dir <- normalizePath("..", mustWork = TRUE)
+data_dir <- file.path(root_dir, "data")
+tables_dir <- file.path(root_dir, "output", "revision", "tables")
+dir.create(tables_dir, recursive = TRUE, showWarnings = FALSE)
+
+afex::set_sum_contrasts()
+```
+
+## ROI dataset with session-specific calibrated temperatures
+
+```{r data-prep}
+roi <- readr::read_csv(file.path(data_dir, "roi_beta_values_by_condition.csv"), show_col_types = FALSE) %>%
+  pivot_longer(cols = -c(subji, Condition), names_to = "ROI", values_to = "beta") %>%
+  mutate(
+    subji = factor(subji),
+    ROI = factor(ROI),
+    intensity = if_else(str_detect(Condition, "high"), "pain", "no-pain"),
+    session = if_else(str_detect(Condition, "ketamine"), "ketamine", "placebo"),
+    beta_scale = as.numeric(scale(beta))
+  )
+
+calib <- readxl::read_excel(file.path(data_dir, "pain_calibration.xlsx")) %>%
+  mutate(subji = as.integer(str_remove(as.character(subji), "^0+"))) %>%
+  transmute(
+    subji,
+    calib_temp_no_pain_placebo = vas2_p,
+    calib_temp_pain_placebo = vas8_p,
+    calib_temp_no_pain_ketamine = vas2_k,
+    calib_temp_pain_ketamine = vas8_k
+  ) %>%
+  pivot_longer(
+    cols = -subji,
+    names_to = c("metric", "session"),
+    names_pattern = "calib_temp_(.*)_(placebo|ketamine)",
+    values_to = "calib_temp"
+  ) %>%
+  pivot_wider(names_from = metric, values_from = calib_temp)
+
+roi <- roi %>%
+  mutate(subji_num = as.integer(str_remove(as.character(subji), "^0+"))) %>%
+  left_join(calib, by = c("subji_num" = "subji", "session")) %>%
+  mutate(calib_temp = if_else(intensity == "pain", pain, no_pain))
+```
+
+## Model comparison: additive calibration vs full interaction model
+
+```{r model-comparison}
+m1 <- lmer(
+  beta_scale ~ intensity * session * ROI + calib_temp + (1 | subji),
+  data = roi,
+  REML = FALSE,
+  control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6))
+)
+
+m2 <- lmer(
+  beta_scale ~ intensity * session * ROI * calib_temp + (1 | subji),
+  data = roi,
+  REML = FALSE,
+  control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6))
+)
+
+model_comp <- as.data.frame(anova(m1, m2))
+readr::write_csv(model_comp, file.path(tables_dir, "roi_m1_vs_m2_calibtemp_interaction_anova.csv"))
+model_comp
+```
+
+## ANOVA table (`nice`) for full interaction model
+
+```{r nice-anova}
+m2_afex <- afex::mixed(
+  beta_scale ~ intensity * session * ROI * calib_temp + (1 | subji),
+  data = roi,
+  method = "KR",
+  control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6))
+)
+
+nice_tbl <- as.data.frame(afex::nice(m2_afex))
+readr::write_csv(nice_tbl, file.path(tables_dir, "roi_m2_nice_anova.csv"))
+nice_tbl
+```
+
+## Post hoc simple slopes (unadjusted p-values)
+
+```{r posthoc-no-adjust}
+t_by_intensity <- emtrends(m2_afex, ~ intensity, var = "calib_temp") %>%
+  summary(infer = TRUE, adjust = "none") %>%
+  as.data.frame()
+
+t_by_session <- emtrends(m2_afex, ~ session, var = "calib_temp") %>%
+  summary(infer = TRUE, adjust = "none") %>%
+  as.data.frame()
+
+t_intensity_within_session <- emtrends(m2_afex, ~ intensity | session, var = "calib_temp") %>%
+  summary(infer = TRUE, adjust = "none") %>%
+  as.data.frame()
+
+readr::write_csv(t_by_intensity, file.path(tables_dir, "posthoc_m2_calibtemp_slope_by_intensity_noadj.csv"))
+readr::write_csv(t_by_session, file.path(tables_dir, "posthoc_m2_calibtemp_slope_by_session_noadj.csv"))
+readr::write_csv(t_intensity_within_session, file.path(tables_dir, "posthoc_m2_calibtemp_slope_by_intensity_within_session_noadj.csv"))
+
+t_by_intensity
+t_by_session
+t_intensity_within_session
+```
+
+---
+
+## Steiger's test: do brain–pain correlations differ between sessions?
+
+Addresses Reviewer 2, comment #14: the Discussion claim that ketamine "did not alter"
+the brain–pain correlation should be supported by a formal test.
+
+We compare the Spearman r_placebo vs r_ketamine for (a) each ROI and (b) the NPS,
+using Steiger's test for two non-overlapping dependent correlations (all four
+variables drawn from the same participants). The Fisher z transformation applied to
+Spearman rho is a standard approximation for moderate-to-large n.
+
+```{r steiger-setup}
+roi_raw <- readr::read_csv(file.path(data_dir, "roi_beta_values_by_condition.csv"),
+                           show_col_types = FALSE) %>%
+  mutate(subji = as.integer(str_remove(as.character(subji), "^0+")))
+
+pain_raw <- readr::read_csv(file.path(data_dir, "pain_ratings.csv"),
+                            show_col_types = FALSE) %>%
+  mutate(subji = as.integer(as.character(subji)))
+
+nps_raw <- readr::read_csv(file.path(data_dir, "NPS.csv"),
+                           show_col_types = FALSE) %>%
+  mutate(subji = as.integer(str_remove(as.character(subji), "^0+")))
+
+roi_cols <- c("ant_insula_L", "ant_insula_R", "dlPFC_R", "dACC", "s1_R", "s2_L", "s2_R")
+
+roi_labels_map <- c(
+  ant_insula_L = "Left Anterior Insula",
+  ant_insula_R = "Right Anterior Insula",
+  dlPFC_R      = "Right dlPFC",
+  dACC         = "dACC",
+  s1_R         = "Right S1",
+  s2_L         = "Left S2",
+  s2_R         = "Right S2"
+)
+
+# Long format: one row per subji × session × intensity × ROI
+roi_long <- roi_raw %>%
+  mutate(
+    session   = if_else(str_detect(Condition, "ketamine"), "ketamine", "placebo"),
+    intensity = if_else(str_detect(Condition, "high"), "high", "low")
+  ) %>%
+  dplyr::select(subji, session, intensity, all_of(roi_cols)) %>%
+  pivot_longer(cols = all_of(roi_cols), names_to = "ROI", values_to = "beta")
+
+# Compute activation diff (high - low) per session, then pivot wide on session
+roi_diff_wide <- roi_long %>%
+  pivot_wider(id_cols = c(subji, session, ROI),
+              names_from = intensity, values_from = beta) %>%
+  mutate(act_diff = high - low) %>%
+  dplyr::select(subji, session, ROI, act_diff) %>%
+  pivot_wider(id_cols = c(subji, ROI), names_from = session,
+              values_from = act_diff, names_prefix = "act_diff_")
+
+# Pain rating diff (high - low) per session per subject
+# column suffix _1 = placebo, _2 = ketamine
+pain_diff_wide <- pain_raw %>%
+  transmute(
+    subji,
+    pain_diff_placebo  = rating.response_heat_high_1 - rating.response_heat_low_1,
+    pain_diff_ketamine = rating.response_heat_high_2 - rating.response_heat_low_2
+  )
+```
+
+```{r steiger-roi}
+# Helper: Steiger test for two non-overlapping dependent correlations
+# Variables: x1=pain_plac, x2=act_plac, x3=pain_ket, x4=act_ket
+# r12 = r(pain_plac, act_plac) [placebo brain-pain]
+# r34 = r(pain_ket,  act_ket)  [ketamine brain-pain]
+steiger_nonoverlap <- function(x1, x2, x3, x4) {
+  complete <- complete.cases(x1, x2, x3, x4)
+  x1 <- x1[complete]; x2 <- x2[complete]
+  x3 <- x3[complete]; x4 <- x4[complete]
+  n <- length(x1)
+  r12 <- cor(x1, x2, method = "spearman")
+  r34 <- cor(x3, x4, method = "spearman")
+  r13 <- cor(x1, x3, method = "spearman")
+  r14 <- cor(x1, x4, method = "spearman")
+  r23 <- cor(x2, x3, method = "spearman")
+  r24 <- cor(x2, x4, method = "spearman")
+  res <- psych::r.test(n = n, r12 = r12, r34 = r34,
+                       r13 = r13, r14 = r14, r23 = r23, r24 = r24)
+  tibble(
+    n         = n,
+    r_placebo = round(r12, 3),
+    r_ketamine= round(r34, 3),
+    z         = round(res$z, 3),
+    p         = round(res$p, 4)
+  )
+}
+
+roi_steiger_df <- left_join(roi_diff_wide, pain_diff_wide, by = "subji")
+
+roi_steiger_results <- map_dfr(roi_cols, function(roi) {
+  df <- roi_steiger_df %>% filter(ROI == roi)
+  bind_cols(
+    tibble(ROI = roi_labels_map[roi]),
+    steiger_nonoverlap(
+      x1 = df$pain_diff_placebo,
+      x2 = df$act_diff_placebo,
+      x3 = df$pain_diff_ketamine,
+      x4 = df$act_diff_ketamine
+    )
+  )
+})
+
+readr::write_csv(roi_steiger_results,
+                 file.path(tables_dir, "steiger_roi_session_corr_diff.csv"))
+roi_steiger_results
+```
+
+```{r steiger-nps}
+# NPS: compare r(pain_high_placebo, NPS_placebo_high) vs r(pain_high_ketamine, NPS_ketamine_high)
+nps_merged <- inner_join(
+  nps_raw %>% dplyr::select(subji, NPS_placebo_high, NPS_ketamine_high),
+  pain_raw %>% transmute(subji,
+                         pain_high_placebo  = rating.response_heat_high_1,
+                         pain_high_ketamine = rating.response_heat_high_2),
+  by = "subji"
+)
+
+nps_steiger <- steiger_nonoverlap(
+  x1 = nps_merged$pain_high_placebo,
+  x2 = nps_merged$NPS_placebo_high,
+  x3 = nps_merged$pain_high_ketamine,
+  x4 = nps_merged$NPS_ketamine_high
+)
+
+nps_steiger <- bind_cols(tibble(measure = "NPS × pain rating"), nps_steiger)
+
+readr::write_csv(nps_steiger,
+                 file.path(tables_dir, "steiger_nps_session_corr_diff.csv"))
+nps_steiger
+```

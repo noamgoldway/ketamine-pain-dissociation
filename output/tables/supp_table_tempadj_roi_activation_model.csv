@@ -1,0 +1,29 @@
+Effect,df,statistic,p
+intensity1,695.92,-2,0.046
+session1,700.92,-6.61,< .001
+ROI1,700.91,1.76,0.080
+ROI2,700.91,2.45,0.014
+ROI3,700.91,-2.68,0.007
+ROI4,700.91,1.71,0.088
+ROI5,700.91,-5.7,< .001
+ROI6,700.91,0.14,0.887
+calib_temp,667.54,2.99,0.003
+intensity1:session1,702.70,3.68,< .001
+intensity1:ROI1,700.91,-0.43,0.668
+intensity1:ROI2,700.91,-0.67,0.503
+intensity1:ROI3,700.91,-0.85,0.394
+intensity1:ROI4,700.91,0.43,0.664
+intensity1:ROI5,700.91,1.28,0.202
+intensity1:ROI6,700.91,0.34,0.732
+session1:ROI1,700.91,0.07,0.942
+session1:ROI2,700.91,-0.2,0.842
+session1:ROI3,700.91,-0.14,0.887
+session1:ROI4,700.91,0.12,0.901
+session1:ROI5,700.91,-0.8,0.425
+session1:ROI6,700.91,0.47,0.641
+intensity1:session1:ROI1,700.91,-0.34,0.735
+intensity1:session1:ROI2,700.91,-0.07,0.940
+intensity1:session1:ROI3,700.91,-0.07,0.946
+intensity1:session1:ROI4,700.91,-0.12,0.904
+intensity1:session1:ROI5,700.91,0.5,0.614
+intensity1:session1:ROI6,700.91,-0.05,0.961
