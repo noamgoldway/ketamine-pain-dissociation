@@ -17,14 +17,12 @@ data_path <- file.path(repo_root, "data", "CADSS_Weight_DoseEquivalence_Data.csv
 fig_dir <- file.path(repo_root, "output", "revision", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
-# Manuscript Supp Fig S1 reports Pearson r = -0.056, p = 0.777; that matches
-# CADSS_total_post_avg (mean of post-infusion CADSS on placebo and ketamine sessions),
-# not ketamine-only post-bolus (session2), which gives r ≈ 0.04, p ≈ 0.86.
+# Ketamine session post-bolus CADSS (session2); n = 29, r ≈ 0.04, R² ≈ 0.001, p ≈ 0.86.
 df <- read_csv(data_path, show_col_types = FALSE) %>%
   transmute(
     participant_id,
     weight_kg,
-    cadss_post = CADSS_total_post_avg
+    cadss_post = CADSS_total_post_session2
   )
 
 fit <- lm(cadss_post ~ weight_kg, data = df)
@@ -34,7 +32,28 @@ p_val <- coef(fit_sum)[2, 4]
 r2_val <- fit_sum$r.squared
 n_val <- nrow(df)
 
+x_rng <- range(df$weight_kg, na.rm = TRUE)
+pred_grid <- data.frame(weight_kg = seq(x_rng[1], x_rng[2], length.out = 100))
+pred_ci <- predict(fit, newdata = pred_grid, interval = "confidence")
+pred_grid$fit <- pred_ci[, "fit"]
+pred_grid$lwr <- pred_ci[, "lwr"]
+pred_grid$upr <- pred_ci[, "upr"]
+
 p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
+  geom_ribbon(
+    data = pred_grid,
+    aes(x = weight_kg, ymin = lwr, ymax = upr),
+    inherit.aes = FALSE,
+    fill = "#D88FA1",
+    alpha = 0.18
+  ) +
+  geom_line(
+    data = pred_grid,
+    aes(x = weight_kg, y = fit),
+    inherit.aes = FALSE,
+    color = "#B12243",
+    linewidth = 1.2
+  ) +
   geom_point(
     shape = 21,
     size = 3.2,
@@ -42,15 +61,6 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
     fill = "#2C7F95",
     color = "#1E5D6E",
     alpha = 0.55
-  ) +
-  geom_smooth(
-    method = "lm",
-    se = TRUE,
-    color = "#B12243",
-    fill = "#D88FA1",
-    linetype = "solid",
-    linewidth = 1.2,
-    alpha = 0.18
   ) +
   annotate(
     "text",
@@ -68,7 +78,7 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
   ) +
   labs(
     x = "Body Weight (kg)",
-    y = "Post-infusion CADSS total (session average)"
+    y = "Post-Bolus CADSS Total Score"
   ) +
   theme_minimal(base_size = 18) +
   theme(
