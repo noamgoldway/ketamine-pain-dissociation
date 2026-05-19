@@ -11,8 +11,21 @@ __pycache__/
 renv/library/
 renv/staging/
 renv/local/
+renv/cellar/
+renv/python/
+renv/sandbox/
 downloaded_file.zip
+Rplots.pdf
 
 # Local-only duplicates (not submission)
 text/BIORXIV*.pdf
 text/Supplemental*.docx
+figs/
+
+# Ephemeral from make supplementary
+code/_supp_run.R
+
+# Out of submission scope (keep on Box)
+code/main_inference_stats.R
+code/ketamine_pain_analysis_rmarkdown.Rmd
+code/suppanalysis_roi_calibtemp_interactions.Rmd
