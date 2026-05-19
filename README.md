@@ -95,8 +95,11 @@ Writes `output/revision/figures/Figure_S_calibtemp_pain_slopes.png` (and `.pdf`)
 
 ```bash
 make all
+make verify   # spot-check key stats vs submitted manuscript
 make check
 ```
+
+See `docs/VERIFICATION.md` for what is validated and one caption–data note for Supplementary Figure S1.
 
 ## Data
 

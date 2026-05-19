@@ -17,21 +17,24 @@ data_path <- file.path(repo_root, "data", "CADSS_Weight_DoseEquivalence_Data.csv
 fig_dir <- file.path(repo_root, "output", "revision", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
+# Manuscript Supp Fig S1 reports Pearson r = -0.056, p = 0.777; that matches
+# CADSS_total_post_avg (mean of post-infusion CADSS on placebo and ketamine sessions),
+# not ketamine-only post-bolus (session2), which gives r ≈ 0.04, p ≈ 0.86.
 df <- read_csv(data_path, show_col_types = FALSE) %>%
   transmute(
     participant_id,
     weight_kg,
-    cadss_post_ketamine = CADSS_total_post_session2
+    cadss_post = CADSS_total_post_avg
   )
 
-fit <- lm(cadss_post_ketamine ~ weight_kg, data = df)
+fit <- lm(cadss_post ~ weight_kg, data = df)
 fit_sum <- summary(fit)
-r_val <- unname(cor(df$weight_kg, df$cadss_post_ketamine, use = "complete.obs"))
+r_val <- unname(cor(df$weight_kg, df$cadss_post, use = "complete.obs"))
 p_val <- coef(fit_sum)[2, 4]
 r2_val <- fit_sum$r.squared
 n_val <- nrow(df)
 
-p <- ggplot(df, aes(x = weight_kg, y = cadss_post_ketamine)) +
+p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
   geom_point(
     shape = 21,
     size = 3.2,
@@ -52,8 +55,12 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post_ketamine)) +
   annotate(
     "text",
     x = max(df$weight_kg),
-    y = min(df$cadss_post_ketamine) + 0.8,
-    label = paste0("Linear fit  (R^2=", sprintf("%.3f", r2_val), ")"),
+    y = min(df$cadss_post) + 0.8,
+    label = paste0(
+      "Pearson r = ", sprintf("%.3f", r_val),
+      " (p = ", sprintf("%.3f", p_val), ")\n",
+      "Linear fit (R^2 = ", sprintf("%.3f", r2_val), ")"
+    ),
     hjust = 1,
     vjust = 0,
     size = 4.2,
@@ -61,7 +68,7 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post_ketamine)) +
   ) +
   labs(
     x = "Body Weight (kg)",
-    y = "Post-Bolus CADSS Total Score"
+    y = "Post-infusion CADSS total (session average)"
   ) +
   theme_minimal(base_size = 18) +
   theme(

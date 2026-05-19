@@ -3,9 +3,12 @@
 ROOT_DIR := $(CURDIR)
 export ROOT_DIR
 
-.PHONY: all main supplementary dose-equiv check
+.PHONY: all main supplementary dose-equiv verify check
 
 all: main supplementary dose-equiv
+
+verify:
+	ROOT_DIR="$(ROOT_DIR)" Rscript code/verify_manuscript_numbers.R
 
 main:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/01_pain_ketamine_analysis_temp_covariate.r
@@ -16,7 +19,7 @@ supplementary:
 dose-equiv:
 	Rscript code/revision/plot_dose_equivalence.R
 
-check:
+check: verify
 	@test -f output/revision/figures/Figure_S_calibtemp_pain_slopes.png
 	@test -f output/revision/tables/steiger_roi_session_corr_diff.csv
 	@echo "Key revision outputs present."
