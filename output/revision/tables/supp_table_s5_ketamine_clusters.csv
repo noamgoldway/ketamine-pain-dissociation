@@ -1,0 +1,10 @@
+Brain region,L/R,Cluster size,peak p-value,x,y,z
+Anterior insula / Opercular Cortex,R,608,<.001,56,12,14
+Precentral Gyrus,R,422,<.001,34,-20,54
+Frontal Operculum Cortex,L,278,<.001,-34,14,12
+Precuneus,,249,<.001,10,-58,22
+not-labeled,,241,<.001,-12,12,50
+Cerebellum,R,184,<.001,36,-56,-28
+Precentral Gyrus,L,166,<.001,-56,4,14
+"pSMG r (Supramarginal Gyrus, posterior division Right)",R,134,<.001,60,-36,44
+Precuneus,,126,<.001,8,-58,42

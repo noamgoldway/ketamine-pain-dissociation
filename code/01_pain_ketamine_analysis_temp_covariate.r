@@ -303,7 +303,8 @@ CADSS <- CADSS_wide %>%
                               Amnesiasum = "Amnesia",
                               Depersonalizationsum = "Depersonalization",
                               Derealisationsum = "Derealisation"),
-    session   = factor(if_else(session == "2", "Placebo", "Ketamine"), levels = c("Placebo", "Ketamine")),
+    # CADSS column names: CADSS_*_{1|2}_{baseline|post|end}; 1 = placebo, 2 = ketamine
+    session   = factor(if_else(session == "2", "Ketamine", "Placebo"), levels = c("Placebo", "Ketamine")),
     time_point = dplyr::recode(time_point,
                                baseline = "Pre-infusion",
                                post     = "Post-bolus",
@@ -343,6 +344,9 @@ CADSS_m <- afex::mixed(
   method = "KR"
 )
 
+save_table(as.data.frame(afex::nice(CADSS_m)), "supp_table_cadss_mixed_model")
+save_table(as.data.frame(afex::nice(Pain_ratings_m)), "pain_ratings_mixed_model_anova")
+save_table(as.data.frame(afex::nice(Pain_ratings_m_temp_adj)), "supp_table_tempadj_pain_model_anova")
 
 cadss_emm_sess_tp <- emmeans(CADSS_m, ~ session | time_point)
 
@@ -444,6 +448,7 @@ ROI_activation_m <- afex::mixed(beta_scale ~ intensity * session * ROI + (1 | su
                                 data = ROI_data,
                                 control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6)),
                                 method = "KR")
+save_table(as.data.frame(afex::nice(ROI_activation_m)), "supp_table_roi_activation_model_anova")
 
 ROI_activation_m_temp_adj <- afex::mixed(
   beta_scale ~ intensity * session * ROI + calib_temp + (1 | subji),
@@ -451,6 +456,7 @@ ROI_activation_m_temp_adj <- afex::mixed(
   control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6)),
   method = "KR"
 )
+save_table(as.data.frame(afex::nice(ROI_activation_m_temp_adj)), "supp_table_tempadj_roi_activation_model_anova")
 save_table(broom.mixed::tidy(ROI_activation_m_temp_adj$full_model, effects = "fixed"),
            "roi_activation_mixed_model_temp_adjusted")
 

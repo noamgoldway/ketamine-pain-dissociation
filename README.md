@@ -4,7 +4,7 @@ _Goldway et al. — analysis code and derived data for the NPP revision resubmis
 
 Repository: [github.com/noamgoldway/ketamine-pain-dissociation](https://github.com/noamgoldway/ketamine-pain-dissociation)
 
-Submitted manuscripts (snapshots): [`text/npp_revision_2026/`](text/npp_revision_2026/)
+Submitted manuscripts: authoritative copies on Box at `revision/revesion_2/Final_files/`; git snapshots in [`text/npp_revision_2026_r2/`](text/npp_revision_2026_r2/) (sync with `make sync-r2-final`).
 
 ---
 
@@ -29,6 +29,8 @@ Layout follows [tobywise/interactive-avoidance-mental-health_public](https://git
 │   ├── 01_pain_ketamine_analysis_temp_covariate.r
 │   ├── 02_supplementary_revision.Rmd
 │   ├── verify_manuscript_numbers.R
+│   ├── verify_all_manuscript.R
+│   ├── extract_manuscript_claims.py   # docx inventory only (not statistics)
 │   └── revision/
 │       └── plot_dose_equivalence.R
 ├── output/
@@ -37,8 +39,11 @@ Layout follows [tobywise/interactive-avoidance-mental-health_public](https://git
 │   └── revision/             # NPP resubmission figures & Steiger tables
 └── text/
     ├── Main.pdf              # Prior OSF main PDF
-    └── npp_revision_2026/  # Submitted Word files (May 2026)
+    └── npp_revision_2026_r2/ # R2 Word snapshots (sync from revision/revesion_2/Final_files/)
 ```
+
+**Authoritative R2 submission files (Box):**  
+`/Users/noamgoldway/Library/CloudStorage/Box-Box/Goldway, Noam/tlvphd/manuscript-pain/revision/revesion_2/Final_files`
 
 ## Installing dependencies
 
@@ -61,9 +66,15 @@ install.packages(c(
 ))
 ```
 
-### Python (optional)
+### Python (docx extraction only)
 
-Only needed for exploratory CADSS-timing scripts **not** in the submission inventory:
+Required for `make extract-claims` / `make verify-all` (parses R2 Word files; no statistical re-analysis):
+
+```bash
+python3 code/extract_manuscript_claims.py
+```
+
+Optional: exploratory CADSS-timing scripts **not** in the submission inventory:
 
 ```bash
 pip install -r requirements.txt
@@ -108,12 +119,13 @@ Writes `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.{png,pdf}
 ### All steps + verification
 
 ```bash
-make all
-make verify
-make check
+make sync-r2-final  # copy docx from revision/revesion_2/Final_files/
+make all            # optional if committed outputs are current
+make verify-all     # extract R2 docx claims + full R verification
+make check        # key revision files exist
 ```
 
-See `docs/VERIFICATION.md` for statistics checked against `text/npp_revision_2026/`.
+See `docs/VERIFICATION.md` for statistics checked against `text/npp_revision_2026_r2/` (synced from Final_files).
 
 ## Data
 
@@ -127,7 +139,7 @@ Unlike the Wise reference repo, Tier-1 inputs are **committed in git** (small de
 
 ## What is not rebuilt here
 
-See `docs/SUBMISSION_INVENTORY.md`. Supplementary Figure S2 is a **frozen** export. CADSS infusion-timing and arrow-task figures are out of scope.
+See `docs/SUBMISSION_INVENTORY.md`. Supplementary Figure S2 is rebuilt by `make supp-fig-s2`. CADSS infusion-timing and arrow-task figures are out of scope.
 
 ## Citation
 
