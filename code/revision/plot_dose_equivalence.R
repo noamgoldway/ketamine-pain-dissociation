@@ -96,7 +96,6 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
 
 out_names <- c(
   "Figure_S_dose_equivalence_weight_cadss",
-  "Figure_S_calibtemp_pain_slopes",
   "Supplementary_Figure_S1_weight_cadss_submitted"
 )
 

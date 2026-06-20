@@ -1,0 +1,9 @@
+Effect,df,F,p.value
+intensity,"1, 696.04",3.95 *,.047
+session,"1, 701.02",43.72 ***,<.001
+ROI,"6, 701.01",8.17 ***,<.001
+calib_temp,"1, 667.76",8.82 **,.003
+intensity:session,"1, 702.80",13.58 ***,<.001
+intensity:ROI,"6, 701.01",0.47,.829
+session:ROI,"6, 701.01",0.17,.986
+intensity:session:ROI,"6, 701.01",0.06,.999
