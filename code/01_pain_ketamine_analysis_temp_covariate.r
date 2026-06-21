@@ -1102,6 +1102,14 @@ all_networks_plot
 
 save_plot(all_networks_plot, "connectivity_all_networks", width = 8, height = 6)
 
+supp_fig_dir <- file.path(root_dir, "output", "supplementary", "figures")
+dir.create(supp_fig_dir, recursive = TRUE, showWarnings = FALSE)
+file.copy(
+  file.path(PATHS$figures, "connectivity_all_networks.png"),
+  file.path(supp_fig_dir, "Supplementary_Figure_S3_connectivity.png"),
+  overwrite = TRUE
+)
+
 # DMN focused correlation with CADSS sum --------------------------------------
 
 all_conn <- all_conn %>%

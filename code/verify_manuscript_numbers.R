@@ -34,7 +34,7 @@ fail <- function(name, expected, observed, tol = 0.001) {
   invisible(ok)
 }
 
-# --- Supp Fig S1: weight vs ketamine post-bolus CADSS (r ~ 0.04, p ~ 0.86) ---
+# --- Supplementary Figure S1: weight vs ketamine post-bolus CADSS (r ~ 0.04, p ~ 0.86) ---
 we <- read_csv(file.path(data_dir, "CADSS_Weight_DoseEquivalence_Data.csv"), show_col_types = FALSE)
 ct <- cor.test(we$weight_kg, we$CADSS_total_post_session2)
 fail("S1_n", 28, nrow(we), tol = 0)
@@ -46,7 +46,7 @@ pw <- read_csv(file.path(data_dir, "participants.csv"), show_col_types = FALSE)
 fail("demog_weight_mean", 61.6, mean(pw$weight_kg, na.rm = TRUE), tol = 0.15)
 fail("demog_weight_sd", 9.4, sd(pw$weight_kg, na.rm = TRUE), tol = 0.15)
 
-# --- Steiger: all ROI p > 0.11 (main text); recomputed from data should match committed CSV ---
+# --- Steiger: all ROI p > 0.11; recomputed from data should match committed CSV ---
 steiger <- read_csv(file.path(tab_dir, "steiger_roi_session_corr_diff.csv"), show_col_types = FALSE)
 fail("steiger_min_p_above_0.11", 1, as.numeric(min(steiger$p) > 0.11))
 fail("steiger_dlPFC_p", 0.1139, steiger$p[steiger$ROI == "Right dlPFC"])
