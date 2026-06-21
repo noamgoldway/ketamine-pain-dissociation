@@ -1,0 +1,4 @@
+Effect,df,F,p.value
+intensity,"1, 27",239.74 ***,<.001
+session,"1, 54",34.88 ***,<.001
+intensity:session,"1, 54",11.22 **,.001

@@ -1,0 +1,5 @@
+Effect,df,statistic,p
+intensity1,64.44,1.82,0.073
+session1,25.99,-2.18,0.039
+calib_temp,63.53,1.9,0.063
+intensity1:session1,26.23,-2.17,0.039

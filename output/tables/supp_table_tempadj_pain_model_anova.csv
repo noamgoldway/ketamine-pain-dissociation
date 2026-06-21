@@ -1,0 +1,5 @@
+Effect,df,F,p.value
+intensity,"1, 68.74",134.15 ***,<.001
+session,"1, 53.52",34.04 ***,<.001
+calib_temp,"1, 64.21",3.06 +,.085
+intensity:session,"1, 54.02",11.75 **,.001

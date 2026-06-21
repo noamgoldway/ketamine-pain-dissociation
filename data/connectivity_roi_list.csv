@@ -1,0 +1,29 @@
+roi_label,x,y,z,network
+Posterior Cingulate Cortex (PCC),0,-54,31,DMN
+Inferior Parietal Lobule R,44,-65,33,DMN
+Inferior Parietal Lobule L,-37,73,38,DMN
+Ventromedial Prefrontal Cortex,0,54,-6,DMN
+Parahippocampal Gyrus R,25,-36,-17,DMN
+Parahippocampal Gyrus L,-27,-40,-13,DMN
+Anterior Cingulate Cortex,0,18,41,SN
+Dorsolateral Prefrontal Cortex R,32,45,28,SN
+Dorsolateral Prefrontal Cortex L,-33,44,27,SN
+Supramarginal Gyrus R,53,-43,40,SN
+Supramarginal Gyrus L,-36,-50,43,SN
+Insular Cortex R,45,16,0,SN
+Insular Cortex L,-40,15,3,SN
+Posterior Cingulate Cortex,0,-25,28,SN
+Mid Temporal Lobe L,-56,-41,9,Frontoparietal
+Middle Frontal Gyrus R,52,24,4,Frontoparietal
+Middle Frontal Gyrus L,-51,22,2,Frontoparietal
+Precuneus R,2,-55,43,Frontoparietal
+Precentral Gyrus L,-43,1,53,Frontoparietal
+Parietal Supplementary Area,-22,-79,37,Frontoparietal
+Somatosensory Area R,50,-12,33,Sensorimotor
+Somatosensory Area L,-52,-12,28,Sensorimotor
+Sensorymotor Cortex,2,-23,60,Sensorimotor
+Intraprietal Sulcus R,44,-32,52,Dorsal Attention
+Intraprietal Sulcus L,-39,-28,53,Dorsal Attention
+Supplementary Motor Area,-2,-4,53,Dorsal Attention
+Premotor Area L,-57,4,36,Dorsal Attention
+Premotor Area R,58,9,33,Dorsal Attention

@@ -1,0 +1,8 @@
+Effect,df,F,p.value
+time_point,"2, 476.15",104.25 ***,<.001
+session,"1, 32.07",57.44 ***,<.001
+sub_scale,"2, 464.23",64.10 ***,<.001
+time_point:session,"2, 477.73",109.51 ***,<.001
+time_point:sub_scale,"4, 464.23",8.19 ***,<.001
+session:sub_scale,"2, 464.23",9.87 ***,<.001
+time_point:session:sub_scale,"4, 464.23",11.15 ***,<.001

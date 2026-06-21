@@ -1,0 +1,8 @@
+Effect,df,F,p.value
+intensity,"1, 702",124.27 ***,<.001
+session,"1, 702",43.05 ***,<.001
+ROI,"6, 702",8.11 ***,<.001
+intensity:session,"1, 702",16.45 ***,<.001
+intensity:ROI,"6, 702",0.47,.831
+session:ROI,"6, 702",0.17,.986
+intensity:session:ROI,"6, 702",0.06,.999

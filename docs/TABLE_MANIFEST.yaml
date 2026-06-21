@@ -1,0 +1,121 @@
+# Supplementary table → reproduction mapping (R2 docx numbering)
+# verify: full | frozen | hash_only
+
+S1:
+  status: reproducible
+  source_csv: data/connectivity_roi_list.csv
+  script: code/extract_manuscript_claims.py
+  note: Connectivity ROI atlas (MNI coordinates); exported from supplementary docx Table S1
+
+S2:
+  status: reproducible
+  source_csv: output/tables/supp_table_cadss_mixed_model.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: Effect
+  columns:
+    Effect: Effect
+    df: df
+    F: F
+    p: p
+
+S3:
+  status: reproducible
+  source_csv: output/tables/cadss_posthoc_session_contrasts.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: contrast
+  match_cols:
+    - { ms: time_point, csv: time_point }
+    - { ms: estimate, csv: estimate, tol: 0.05 }
+    - { ms: t.ratio, csv: t.ratio, tol: 0.05 }
+    - { ms: p.value, csv: p.value, tol: 0.01 }
+
+S4:
+  status: reproducible
+  source_csv: output/tables/cadss_posthoc_timepoint_contrasts.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: contrast
+
+S5:
+  status: reproducible
+  source_csv: output/revision/tables/supp_table_s5_ketamine_clusters.csv
+  script: make sync-s5
+  reference_csv: data/spm_ketamine_clusters_reference.csv
+  note: SPM univariate cluster table; synced from committed reference (SPM pipeline external)
+
+S6:
+  status: reproducible
+  source_csv: output/tables/supp_table_roi_activation_model_anova.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: Effect
+  note: >
+    Supplementary Table S6 reports beta~intensity*session*ROI (no calib_temp).
+    Temp-adjusted ROI activation ANOVA is in supp_table_tempadj_roi_activation_model_anova.csv.
+
+S7:
+  status: reproducible
+  source_csv: output/tables/roi_diff_posthoc.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: contrast
+
+S8:
+  status: reproducible
+  source_csv: output/tables/roi_m2_nice_anova.csv
+  script: code/02_supplementary_revision.Rmd
+  key_col: Effect
+
+S9:
+  status: reproducible
+  source_csv: output/revision/tables/posthoc_m2_calibtemp_slope_by_intensity_noadj.csv
+  script: code/02_supplementary_revision.Rmd
+
+S10:
+  status: reproducible
+  source_csv: output/revision/tables/posthoc_m2_calibtemp_slope_by_session_noadj.csv
+  script: code/02_supplementary_revision.Rmd
+
+S11:
+  status: reproducible
+  source_csv: output/revision/tables/posthoc_m2_calibtemp_slope_by_intensity_within_session_noadj.csv
+  script: code/02_supplementary_revision.Rmd
+
+S12:
+  status: reproducible
+  source_csv: output/tables/pain_roi_corr_results.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_cols: [ROI, session]
+
+S13:
+  status: reproducible
+  source_csv: output/tables/pain_roi_dissoc_model_comparison.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: ROI
+
+S14:
+  status: reproducible
+  source_csv: output/tables/nps_dissoc_model_comparison.csv
+  script: code/01_pain_ketamine_analysis_temp_covariate.r
+  key_col: outcome
+  note: >
+    Supplementary Table S14 in the R2 docx reports NPS multivariate model fit
+    (Adj R² / AIC). Temp-adjusted pain ratings (calib_temp p = 0.070) are in
+    output/tables/supp_table_tempadj_pain_model.csv and checked in verify-all.
+
+in_text_anchors:
+  - name: pain_interaction_F
+    doc: main
+    pattern: "F( 1,54) = 11.22"
+    csv: output/tables/pain_ratings_mixed_model_anova.csv
+    lookup: { effect_contains: "intensity1:session1", col: F, expected: 11.22, tol: 0.15 }
+  - name: cadss_session_F
+    doc: main
+    pattern: "F( 1,32) = 57.44"
+    csv: output/tables/supp_table_cadss_mixed_model.csv
+    lookup: { effect_contains: "session1", col: F, expected: 57.44, tol: 0.5 }
+  - name: s1_pearson_r
+    doc: supplementary
+    csv: data/CADSS_Weight_DoseEquivalence_Data.csv
+    recomputed: true
+  - name: weight_demog
+    doc: main
+    csv: data/participants.csv
+    recomputed: true
