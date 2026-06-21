@@ -1,26 +1,28 @@
 # Reproduction manifest
 
-Maps manuscript tables and figures to scripts and output files. Run all commands from the **repository root**.
-
-| Manuscript asset | Command | Output path |
-|------------------|---------|-------------|
-| Main-text tables & figures | `make main` | `output/tables/`, `output/figures/` |
-| Supplementary tables (Steiger, ROI × temperature, S5) | `make supplementary` | `output/supplementary/tables/` |
-| Supplementary Figure S1 | `make supplementary` | `output/supplementary/figures/Supplementary_Figure_S1_weight_cadss_submitted.png` |
-| Supplementary Figure S2 | `make supplementary` | `output/supplementary/figures/Supplementary_Figure_S2_roi_calib_temperature.png` |
-| Supplementary Figure S3 | `make all` | `output/supplementary/figures/Supplementary_Figure_S3_connectivity.png` (from main connectivity plot) |
-| Temp-adjusted models | `make main` | `output/tables/supp_table_tempadj_*`, `model_comparison_*` |
+Run all commands from the repository root.
 
 ## Commands
 
+| Command | Scripts | Output |
+|---------|---------|--------|
+| `make main` | `code/01_pain_ketamine_analysis_temp_covariate.r` | `output/tables/`, `output/figures/` |
+| `make supplementary` | `code/02_supplementary.Rmd`, `code/supplementary/*.R` | `output/supplementary/` |
+| `make all` | Both of the above | All outputs |
+| `make verify` | `code/verify_manuscript_numbers.R` | Terminal spot-checks |
+
 ```bash
 R -e "renv::restore()"   # if using renv
-make main                # main-text tables and figures
-make supplementary       # all supplementary tables and figures (S3 needs main first)
-make all                 # full reproduction
-make verify              # spot-check key statistics
+make all
+make verify
 ```
 
-## Notes
+## Output layout
 
-SPM cluster inference (Supplementary Table S5) is external to this repository; the committed table is synced from `data/spm_ketamine_clusters_reference.csv` during `make supplementary`.
+**`output/tables/`** — mixed models, post-hoc contrasts, and model-comparison tables from the main script. This includes most supplementary statistics cited in the manuscript.
+
+**`output/figures/`** — main-text figures from the main script.
+
+**`output/supplementary/tables/`** — Steiger tests, ROI × calibration-temperature post-hocs, and the SPM cluster table (`supp_table_s5_ketamine_clusters.csv`, copied from `data/spm_ketamine_clusters_reference.csv`).
+
+**`output/supplementary/figures/`** — supplementary figures. The connectivity figure is copied here from the main script.

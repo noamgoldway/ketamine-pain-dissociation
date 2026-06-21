@@ -7,7 +7,7 @@ Analysis code and data to reproduce the statistical results in our ketamine–pa
 ## What is included
 
 - **Data** in `data/` — pain ratings, CADSS, NPS, ROI betas, connectivity summaries, demographics
-- **R scripts** in `code/` — mixed models, post-hoc contrasts, Steiger tests, supplementary analyses
+- **R scripts** in `code/` — mixed models, post-hoc contrasts, Steiger tests, and supplementary figures
 - **Outputs** in `output/` — tables and figures corresponding to manuscript results
 - **Manuscript** in `text/manuscript/` — main text and supplementary information (for reference)
 
@@ -24,8 +24,6 @@ export ROOT_DIR="$(pwd)"
 make all
 make verify
 ```
-
-`make all` runs the main analysis, supplementary analyses, and supplementary figures S1–S3.
 
 ## Repository layout
 
@@ -48,15 +46,15 @@ make verify
 
 ## Reproducing the analyses
 
-| Step | Command | Output |
-|------|---------|--------|
-| Main analyses | `make main` | `output/tables/`, `output/figures/` |
-| Supplementary analyses | `make supplementary` | `output/supplementary/tables/`, `output/supplementary/figures/` |
-| Everything | `make all` | All of the above |
+| Command | Output |
+|---------|--------|
+| `make main` | `output/tables/`, `output/figures/` |
+| `make supplementary` | `output/supplementary/` |
+| `make all` | Everything above |
 
-`make supplementary` runs Steiger tests and calibration-temperature models, supplementary figures S1–S3, and supplementary table S5. Figure S3 is copied from the connectivity plot produced by `make main`, so run `make all` (or `make main` first) for a full rebuild.
+The main script fits the mixed models and writes most manuscript tables (including supplementary statistics). The supplementary target adds Steiger tests, ROI × calibration-temperature analyses, supplementary figures, and the SPM cluster table.
 
-See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full mapping of scripts to manuscript tables and figures.
+See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for script-to-output detail.
 
 ## Data files
 
@@ -70,7 +68,7 @@ See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full 
 | `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
 | `demog.csv` | Demographics (age, gender) |
 | `participants.csv` | Participant IDs and body weight |
-| `CADSS_Weight_DoseEquivalence_Data.csv` | Data for Supplementary Figure S1 |
+| `CADSS_Weight_DoseEquivalence_Data.csv` | Body weight and post-bolus CADSS (supplementary figure) |
 
 ## Installing dependencies
 
