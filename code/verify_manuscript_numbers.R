@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# Spot-check committed outputs against statistics reported in Final_files docx.
+# Spot-check committed outputs against statistics reported in the manuscript.
 # Run from repository root: Rscript code/verify_manuscript_numbers.R
 
 suppressPackageStartupMessages({

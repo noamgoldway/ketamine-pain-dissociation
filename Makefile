@@ -3,34 +3,13 @@
 ROOT_DIR := $(CURDIR)
 export ROOT_DIR
 
-MANUSCRIPT_TEXT := $(ROOT_DIR)/text/manuscript
-# Optional local path for maintainers syncing Word files from a private working copy
-FINAL_FILES ?= $(ROOT_DIR)/../../revision/revesion_2/Final_files
-
-.PHONY: all main supplementary dose-equiv verify verify-all check sync-s3 sync-s5 supp-fig-s2 export-s1 export-s4 patch-s4-docx extract-claims sync-r2-final
+.PHONY: all main supplementary dose-equiv verify verify-all check sync-s3 sync-s5 supp-fig-s2 export-s1 export-s4
 
 all: main supplementary dose-equiv sync-s3 sync-s5 supp-fig-s2 export-s4
-
-extract-claims:
-	python3 code/extract_manuscript_claims.py
-
-# Maintainer only: copy manuscript docx from a local Final_files folder into text/manuscript/
-sync-r2-final:
-	@test -d "$(FINAL_FILES)" || (echo "Missing Final_files: $(FINAL_FILES)" && exit 1)
-	@mkdir -p "$(MANUSCRIPT_TEXT)"
-	cp -f "$(FINAL_FILES)/Main_R2.docx" "$(MANUSCRIPT_TEXT)/" 2>/dev/null || true
-	cp -f "$(FINAL_FILES)/Main_R2_tc.docx" "$(MANUSCRIPT_TEXT)/"
-	cp -f "$(FINAL_FILES)/Supplementary_Information_revision_clean.docx" "$(MANUSCRIPT_TEXT)/"
-	cp -f "$(FINAL_FILES)/Rebuttal_R2.docx" "$(MANUSCRIPT_TEXT)/"
-	@echo "Synced Final_files → $(MANUSCRIPT_TEXT)"
-	@ls -la "$(MANUSCRIPT_TEXT)"
 
 export-s4:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/export_supp_table_s4.R
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/export_supp_table_s4_word_subset.R
-
-patch-s4-docx: export-s4
-	FINAL_FILES_DIR="$(FINAL_FILES)" python3 code/patch_supp_table_s4_docx.py
 
 export-s1:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/export_supp_table_s1.R
@@ -42,8 +21,9 @@ sync-s5:
 supp-fig-s2:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/revision/plot_roi_calib_temperature.R
 
-# Full R2 audit: rebuild all R outputs, refresh static exports, then verify against docx.
-verify-all: all extract-claims export-s1
+verify-all: all
+	python3 code/extract_manuscript_claims.py
+	ROOT_DIR="$(ROOT_DIR)" Rscript code/export_supp_table_s1.R
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/verify_all_manuscript.R
 
 sync-s3:

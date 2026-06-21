@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
-# Full R2 verification: supplementary table cells vs committed R outputs + in-text anchors.
+# Full verification: supplementary table cells vs committed R outputs + in-text anchors.
 # Uses CSVs from code/01_*.r and code/02_*.Rmd (not Python re-analysis).
-# Prerequisite: make extract-claims  (python docx inventory only)
+# Prerequisite: make verify-all runs python docx extraction first
 # Run: make verify-all
 
 suppressPackageStartupMessages({
@@ -205,9 +205,9 @@ load_table_specs <- function() {
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 # --- Load extracted docx numbers (inventory only; comparison uses R CSVs) ---
-claims_path <- file.path(repo_root, "docs", "extracted_claims_r2.json")
+claims_path <- file.path(repo_root, "output", "verification", "extracted_claims.json")
 if (!file.exists(claims_path)) {
-  note_fail(paste0("Missing ", claims_path, "; run: make extract-claims"))
+  note_fail(paste0("Missing ", claims_path, "; run: make verify-all"))
 } else {
   claims <- fromJSON(claims_path, simplifyVector = FALSE)
   supp_tables <- claims$supplementary_tables
@@ -389,14 +389,11 @@ if (file.exists(smoke_script)) {
   note_fail("verify_manuscript_numbers.R not found")
 }
 
-# --- Write report ---
-report_path <- file.path(repo_root, "docs", "VERIFICATION_FULL.md")
+# --- Report to stdout ---
 lines <- c(
-  "# Full verification report (R2)",
+  "# Verification report",
   "",
-  paste0("Generated from R outputs in `", repo_root, "`."),
-  "",
-  "Pipeline: `make verify-all` runs **`make all`** (main + supplementary + figures + static sync) before numeric checks.",
+  "Pipeline: `make verify-all` runs **`make all`** before numeric checks.",
   "",
   "Source docx: `text/manuscript/`",
   "",
@@ -423,7 +420,6 @@ lines <- c(
   "",
   paste0("**Overall:** ", if (length(failures)) "FAIL" else "PASS")
 )
-writeLines(lines, report_path)
 
 cat(paste(lines, collapse = "\n"), "\n")
 if (length(failures)) quit(status = 1)

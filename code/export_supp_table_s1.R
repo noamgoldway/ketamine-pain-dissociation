@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 # Export Supplementary Table S1 (connectivity ROI atlas) as tidy CSV.
-# Run after: make extract-claims
+# Run as part of: make verify-all
 
 suppressPackageStartupMessages(library(jsonlite))
 
@@ -8,11 +8,11 @@ repo_root <- Sys.getenv("ROOT_DIR", unset = "")
 if (!nzchar(repo_root)) repo_root <- getwd()
 repo_root <- normalizePath(repo_root, mustWork = FALSE)
 
-claims_path <- file.path(repo_root, "docs", "extracted_claims_r2.json")
+claims_path <- file.path(repo_root, "output", "verification", "extracted_claims.json")
 out_path <- file.path(repo_root, "data", "connectivity_roi_list.csv")
 
 if (!file.exists(claims_path)) {
-  stop("Missing ", claims_path, " — run: make extract-claims")
+  stop("Missing ", claims_path, " — run: make verify-all")
 }
 
 claims <- fromJSON(claims_path, simplifyVector = FALSE)

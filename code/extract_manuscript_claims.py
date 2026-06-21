@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Extract numeric claims from R2 submission docx files.
+Extract numeric claims from manuscript docx files in text/manuscript/.
 
 Usage:
   python code/extract_manuscript_claims.py
-  python code/extract_manuscript_claims.py --check   # regen and report counts only
+  python code/extract_manuscript_claims.py --check
 
-Writes docs/extracted_claims_r2.json and docs/CLAIM_COUNTS.md
+Writes output/verification/extracted_claims.json (ephemeral; used by make verify-all).
 """
 
 from __future__ import annotations
@@ -199,28 +199,16 @@ def main() -> int:
         "supp_numeric_cells": total_cells,
     }
 
-    out_json = root / "docs" / "extracted_claims_r2.json"
-    out_md = root / "docs" / "CLAIM_COUNTS.md"
+    out_dir = root / "output" / "verification"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_json = out_dir / "extracted_claims.json"
 
     if not args.check:
         out_json.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
-    md = [
-        "# R2 claim extraction summary",
-        "",
-        f"- In-text stat patterns: **{total_in_text}**",
-        f"- Supplementary table IDs: **{', '.join(payload['summary']['supp_table_ids'])}**",
-        f"- Supplementary numeric cells: **{total_cells}**",
-        "",
-    ]
-    for sid, meta in sorted(payload["supplementary_tables"].items()):
-        md.append(f"- Table {sid}: {meta['n_rows']} rows, {meta['n_numeric_cells']} numeric cells")
-    out_md.write_text("\n".join(md) + "\n", encoding="utf-8")
-
     print(json.dumps(payload["summary"], indent=2))
     if not args.check:
         print(f"Wrote {out_json}")
-    print(f"Wrote {out_md}")
     return 0
 
 

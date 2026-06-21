@@ -22,8 +22,8 @@ text/BIORXIV*.pdf
 text/Supplemental*.docx
 figs/
 
-# Ephemeral from make supplementary
-code/_supp_run.R
+# Ephemeral from make verify-all
+output/verification/
 
 # Out of submission scope (keep on Box)
 code/main_inference_stats.R
