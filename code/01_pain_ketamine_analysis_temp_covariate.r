@@ -112,7 +112,7 @@ mean_se <- function(x, na.rm = TRUE) {
   c(y = m, ymin = m - se, ymax = m + se)
 }
 
-save_plot <- function(p, filename, width = 7, height = 5, dpi = 300, formats = c("png", "pdf")) {
+save_plot <- function(p, filename, width = 7, height = 5, dpi = 300, formats = c("png")) {
   purrr::walk(formats, ~ ggsave(filename = file.path(PATHS$figures, paste0(filename, ".", .x)),
                                 plot = p, width = width, height = height, dpi = dpi, device = .x))
 }
@@ -416,11 +416,7 @@ ht <- ComplexHeatmap::Heatmap(corr_mat$r, name = "Spearman ρ", col = col_fun,
                                 grid::grid.text(sprintf("%.2f", corr_mat$r[i, j]), x, y, gp = grid::gpar(fontsize = 8))
                               })
 
-# Save heatmap as PDF/PNG
-pdf(file.path(PATHS$figures, "corr_heatmap.pdf"), width = 6, height = 5)
-ComplexHeatmap::draw(ht, heatmap_legend_side = "bottom")
-dev.off()
-
+# Save heatmap as PNG
 png(file.path(PATHS$figures, "corr_heatmap.png"), width = 1800, height = 1500, res = 300)
 ComplexHeatmap::draw(ht, heatmap_legend_side = "bottom")
 dev.off()

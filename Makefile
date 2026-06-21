@@ -16,7 +16,6 @@ supp-fig-s2:
 
 sync-s3:
 	@cp -f output/figures/connectivity_all_networks.png output/supplementary/figures/Supplementary_Figure_S3_connectivity.png 2>/dev/null || true
-	@cp -f output/figures/connectivity_all_networks.pdf output/supplementary/figures/Supplementary_Figure_S3_connectivity.pdf 2>/dev/null || true
 
 verify:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/verify_manuscript_numbers.R
