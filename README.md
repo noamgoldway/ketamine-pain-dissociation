@@ -2,20 +2,16 @@
 
 _Goldway et al._
 
-This repository contains the analysis code and data needed to reproduce the statistical results in our ketamine–pain dissociation study ([Goldway et al., bioRxiv](https://www.biorxiv.org/content/10.1101/2025.07.25.666594v1)). It is meant for readers of the paper who want to rerun the models, inspect the tables, or build on the analysis pipeline.
+Analysis code and data to reproduce the statistical results in our ketamine–pain dissociation study ([Goldway et al., bioRxiv](https://www.biorxiv.org/content/10.1101/2025.07.25.666594v1)).
 
 ## What is included
 
-- **Behavioral and summary neuroimaging data** in `data/` (pain ratings, CADSS, NPS, ROI betas, connectivity matrices, demographics).
-- **R scripts** that fit the mixed models, post-hoc contrasts, Steiger tests, and supplementary analyses reported in the main text and supplement.
-- **Committed outputs** in `output/` (tables and figures corresponding to manuscript results).
-- **Manuscript files** in `text/manuscript/` (main text and supplementary information Word documents, for reference).
-
-fMRI preprocessing and first-level modeling are **not** part of this repository. ROI activations and connectivity were computed upstream; we provide the derived summaries used in the published analyses.
+- **Data** in `data/` — pain ratings, CADSS, NPS, ROI betas, connectivity summaries, demographics
+- **R scripts** in `code/` — mixed models, post-hoc contrasts, Steiger tests, supplementary analyses
+- **Outputs** in `output/` — tables and figures corresponding to manuscript results
+- **Manuscript** in `text/manuscript/` — main text and supplementary information (for reference)
 
 ## Quick start
-
-Clone the repository and run all analyses from the repository root:
 
 ```bash
 git clone https://github.com/noamgoldway/ketamine-pain-dissociation.git
@@ -26,15 +22,10 @@ R -e "renv::restore()"
 
 export ROOT_DIR="$(pwd)"
 make all
-```
-
-`make all` runs the main analysis, supplementary analyses, and supplementary figures S1–S3. Results are written to `output/tables/`, `output/figures/`, and `output/revision/`.
-
-To spot-check that key statistics match the manuscript tables:
-
-```bash
 make verify
 ```
+
+`make all` runs the main analysis, supplementary analyses, and supplementary figures S1–S3.
 
 ## Repository layout
 
@@ -42,50 +33,29 @@ make verify
 ├── README.md
 ├── Makefile
 ├── renv.lock
-├── data/                 # Analysis inputs
+├── data/
 ├── code/
-│   ├── 01_pain_ketamine_analysis_temp_covariate.r   # Main models & figures
-│   ├── 02_supplementary_revision.Rmd                # Steiger tests, ROI × temperature
-│   └── revision/                                    # Supplementary figure scripts
+│   ├── 01_pain_ketamine_analysis_temp_covariate.r
+│   ├── 02_supplementary_revision.Rmd
+│   └── revision/
 ├── output/
-│   ├── tables/           # Main-text statistics
-│   ├── figures/          # Main-text figures
-│   └── revision/         # Supplementary tables & figures
-├── text/manuscript/      # Main text & supplementary Word files
-└── docs/                 # Additional documentation for full reproduction checks
+│   ├── tables/
+│   ├── figures/
+│   └── revision/
+├── text/manuscript/
+└── docs/REPRODUCTION_MANIFEST.md
 ```
 
 ## Reproducing the analyses
 
-All commands below are run from the repository root.
+| Step | Command | Output |
+|------|---------|--------|
+| Main analyses | `make main` | `output/tables/`, `output/figures/` |
+| Supplementary analyses | `make supplementary` | `output/revision/tables/` |
+| Supplementary Figure S1 | `make dose-equiv` | `output/revision/figures/` |
+| Everything | `make all` | All of the above |
 
-### 1. Main analyses (pain, CADSS, NPS, ROI activation, connectivity)
-
-```bash
-make main
-```
-
-Equivalent: `Rscript code/01_pain_ketamine_analysis_temp_covariate.r`
-
-### 2. Supplementary analyses (Steiger tests, calibration-temperature models)
-
-```bash
-make supplementary
-```
-
-### 3. Supplementary Figure S1 (body weight vs. post-infusion CADSS)
-
-```bash
-make dose-equiv
-```
-
-### 4. Run everything
-
-```bash
-make all
-```
-
-For a detailed mapping between scripts, outputs, and manuscript tables, see [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md).
+See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full mapping of scripts to manuscript tables and figures.
 
 ## Data files
 
@@ -93,7 +63,7 @@ For a detailed mapping between scripts, outputs, and manuscript tables, see [`do
 |------|-------------|
 | `pain_ratings.csv` | Trial-level pain ratings |
 | `CADSS.csv` | Dissociation (CADSS) scores by session and time point |
-| `NPS.csv` | Neurophysiological pain signature scores |
+| `NPS.csv` | Neurological Pain Signature (NPS) scores |
 | `roi_beta_values_by_condition.csv` | ROI activation betas by condition |
 | `within_connectivity.xlsx` | Resting-state connectivity summaries |
 | `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
@@ -118,10 +88,6 @@ install.packages(c(
   "afex", "Hmisc", "patchwork", "janitor", "corrplot", "psych", "knitr", "rmarkdown"
 ))
 ```
-
-### Python
-
-Python is **optional** and only needed if you want to run the full manuscript cross-check (`make verify-all`). The statistical analyses are entirely in R.
 
 ## Citation
 

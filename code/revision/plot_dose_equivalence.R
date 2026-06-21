@@ -94,28 +94,22 @@ p <- ggplot(df, aes(x = weight_kg, y = cadss_post)) +
     axis.text = element_text(color = "#2D2D2D")
   )
 
-out_names <- c(
-  "Figure_S_dose_equivalence_weight_cadss",
-  "Supplementary_Figure_S1_weight_cadss_submitted"
+stem <- "Supplementary_Figure_S1_weight_cadss_submitted"
+ggsave(
+  filename = file.path(fig_dir, paste0(stem, ".png")),
+  plot = p,
+  width = 10,
+  height = 7,
+  dpi = 300,
+  bg = "white"
 )
-
-for (stem in out_names) {
-  ggsave(
-    filename = file.path(fig_dir, paste0(stem, ".png")),
-    plot = p,
-    width = 10,
-    height = 7,
-    dpi = 300,
-    bg = "white"
-  )
-  ggsave(
-    filename = file.path(fig_dir, paste0(stem, ".pdf")),
-    plot = p,
-    width = 10,
-    height = 7,
-    bg = "white"
-  )
-}
+ggsave(
+  filename = file.path(fig_dir, paste0(stem, ".pdf")),
+  plot = p,
+  width = 10,
+  height = 7,
+  bg = "white"
+)
 
 message(
   "Dose equivalence (CADSS_total_post_session2): n=", n_val,

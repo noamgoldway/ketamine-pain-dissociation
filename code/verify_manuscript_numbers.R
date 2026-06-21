@@ -58,7 +58,7 @@ if (nrow(calib_row)) {
   fail("pain_calib_temp_p", 0.07, as.numeric(calib_row$p[1]), tol = 0.005)
 }
 
-# --- Rebuttal: ketamine post-bolus CADSS descriptives (mean 24.94, SD 10.77, range 5–48) ---
+# --- Ketamine post-bolus CADSS descriptives (mean 24.94, SD 10.77, range 5–48) ---
 cad <- read_csv(file.path(data_dir, "CADSS.csv"), show_col_types = FALSE)
 cad$post_bolus_ket <- cad$CADSS_Amnesiasum_2_post +
   cad$CADSS_Depersonalizationsum_2_post +
@@ -74,7 +74,7 @@ nps_corr <- read_csv(file.path(main_tab, "nps_pain_corr_results.csv"), show_col_
 fail("nps_high_pain_placebo_rho", 0.64, nps_corr$r[nps_corr$session == "placebo"], tol = 0.02)
 fail("nps_high_pain_ketamine_rho", 0.60, nps_corr$r[nps_corr$session == "ketamine"], tol = 0.02)
 
-# --- Main / rebuttal: ROI activation + calib_temp model comparison and 3-way interaction ---
+# --- ROI activation + calib_temp model comparison and 3-way interaction ---
 roi_cmp <- read_csv(file.path(main_tab, "model_comparison_roi_calib_temp.csv"), show_col_types = FALSE)
 plus_row <- roi_cmp %>% filter(model == "plus_calib_temp")
 fail("roi_calib_temp_chisq", 9.11, plus_row$Chisq[1], tol = 0.05)
@@ -85,7 +85,7 @@ int_row <- roi_anova %>% filter(Effect == "intensity:session:calib_temp")
 fail("roi_intensity_session_calib_F", 7.16, parse_number(int_row$F[1]), tol = 0.05)
 fail("roi_intensity_session_calib_p", 0.008, parse_number(int_row$p.value[1]), tol = 0.002)
 
-# --- Rebuttal: pain ratings + calib_temp LRT (not significant) ---
+# --- Pain ratings + calib_temp LRT ---
 pain_cmp <- read_csv(file.path(main_tab, "model_comparison_pain_calib_temp.csv"), show_col_types = FALSE)
 pain_plus <- pain_cmp %>% filter(model == "plus_calib_temp")
 fail("pain_calib_temp_chisq", 2.66, pain_plus$Chisq[1], tol = 0.05)

@@ -17,15 +17,18 @@ renv/sandbox/
 downloaded_file.zip
 Rplots.pdf
 
-# Local-only duplicates (not submission)
+# Local-only duplicates
 text/BIORXIV*.pdf
 text/Supplemental*.docx
+text/Main.pdf
+text/npp_revision_2026/
 figs/
 
-# Ephemeral from make verify-all
-output/verification/
+# Ephemeral from make supplementary
+code/_supp_run.R
 
-# Out of submission scope (keep on Box)
+# Out of submission scope
 code/main_inference_stats.R
 code/ketamine_pain_analysis_rmarkdown.Rmd
 code/suppanalysis_roi_calibtemp_interactions.Rmd
+code/pain_ketamine_analysis.r
