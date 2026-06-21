@@ -51,9 +51,10 @@ make verify
 | Step | Command | Output |
 |------|---------|--------|
 | Main analyses | `make main` | `output/tables/`, `output/figures/` |
-| Supplementary analyses | `make supplementary` | `output/supplementary/tables/` |
-| Supplementary Figure S1 | `make dose-equiv` | `output/supplementary/figures/` |
+| Supplementary analyses | `make supplementary` | `output/supplementary/tables/`, `output/supplementary/figures/` |
 | Everything | `make all` | All of the above |
+
+`make supplementary` runs Steiger tests and calibration-temperature models, supplementary figures S1–S3, and supplementary table S5. Figure S3 is copied from the connectivity plot produced by `make main`, so run `make all` (or `make main` first) for a full rebuild.
 
 See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full mapping of scripts to manuscript tables and figures.
 
