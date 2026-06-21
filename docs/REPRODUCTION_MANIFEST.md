@@ -1,38 +1,33 @@
 # Reproduction manifest
 
-Derived from `docs/SUBMISSION_INVENTORY.md`. **One row per submitted asset** (or analysis block cited in Final_files).
+Maps manuscript tables and figures to scripts and output files. Run all commands from the **repository root**.
 
-Run all commands from the **repository root** (`submission/osf/` after clone).
-
-| Submitted asset | In git | Reproducible | Script / step | Output path |
-|-----------------|--------|--------------|---------------|-------------|
-| Main Fig 1 | Yes | Partial (export) | `make main` → copy/export | `output/revision/figures/Main_Figure_1.pdf` |
-| Main Fig 2 | Yes | Partial | `make main` | `output/revision/figures/Main_Figure_2.{pdf,png}` |
-| Main Fig 3 | Yes | Partial | `make main` | `output/revision/figures/Main_Figure_3.pdf` |
-| Main Fig 4 | Yes | Partial | `make main` | `output/revision/figures/Main_Figure_4.pdf` |
-| Supp Fig S1 (weight × post-bolus CADSS) | Yes | **Yes** | `make dose-equiv` | `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.*` |
-| Supp Fig S2 (ROI × calib temp) | Yes | **Yes** | `make supp-fig-s2` | `output/revision/figures/Supplementary_Figure_S2_roi_calib_temperature.*` |
-| Supp Fig S3 (connectivity) | Yes | Yes | `make main` | `output/figures/connectivity_all_networks.*` → `Supplementary_Figure_S3_connectivity.*` |
-| Supp Tables S1–S14 (embedded) | Partial | Mixed | Word tables; stats from steps below | `output/tables/`, `output/revision/tables/` |
-| Steiger tests | Yes | Yes | `make supplementary` | `output/revision/tables/steiger_*.csv` |
-| Temp-adjusted models | Yes | Yes | `make main` | `output/tables/supp_table_tempadj_*`, `model_comparison_*` |
-| Manuscript snapshots | Yes | N/A | Copied from `revision/Final_files/` | `text/npp_revision_2026/*.docx` |
+| Manuscript asset | Reproducible | Script / step | Output path |
+|------------------|--------------|---------------|-------------|
+| Main Fig 1 | Partial (export) | `make main` | `output/revision/figures/Main_Figure_1.pdf` |
+| Main Fig 2 | Partial | `make main` | `output/revision/figures/Main_Figure_2.{pdf,png}` |
+| Main Fig 3 | Partial | `make main` | `output/revision/figures/Main_Figure_3.pdf` |
+| Main Fig 4 | Partial | `make main` | `output/revision/figures/Main_Figure_4.pdf` |
+| Supp Fig S1 (weight × post-bolus CADSS) | **Yes** | `make dose-equiv` | `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.*` |
+| Supp Fig S2 (ROI × calib temp) | **Yes** | `make supp-fig-s2` | `output/revision/figures/Supplementary_Figure_S2_roi_calib_temperature.*` |
+| Supp Fig S3 (connectivity) | Yes | `make main` | `output/figures/connectivity_all_networks.*` → `Supplementary_Figure_S3_connectivity.*` |
+| Supp Tables S1–S14 | Mixed | Main + supplementary scripts | `output/tables/`, `output/revision/tables/` |
+| Steiger tests | Yes | `make supplementary` | `output/revision/tables/steiger_*.csv` |
+| Temp-adjusted models | Yes | `make main` | `output/tables/supp_table_tempadj_*`, `model_comparison_*` |
 
 ## Commands (ordered)
 
 ```bash
-cd submission/osf   # repository root
 R -e "renv::restore()"   # if using renv
-make all           # main + supplementary + dose-equiv + S2/S3/S5 sync
-make verify-all    # rebuild all + R2 docx vs R outputs (see docs/VERIFICATION.md)
-make check         # required output files exist
+make all                 # main + supplementary + supplementary figures
+make verify              # spot-check key statistics
 ```
 
-## Frozen / no script
+## Notes
 
 | Asset | Note |
 |-------|------|
-| Main Figs 1–4 in revision folder | Committed PDFs/PNGs; full re-export from analysis figures may differ in styling |
-| SPM first-level / cluster inference | External; Table S5 synced from `data/spm_ketamine_clusters_reference.csv` via `make sync-s5` |
+| Main Figs 1–4 in `output/revision/figures/` | Committed PDFs/PNGs; full re-export from analysis figures may differ in styling |
+| SPM cluster table (Supp Table S5) | First-level/cluster inference is external; table synced from `data/spm_ketamine_clusters_reference.csv` via `make sync-s5` |
 
-Reference layout: [interactive-avoidance-mental-health_public](https://github.com/tobywise/interactive-avoidance-mental-health_public).
+For a full cross-check of manuscript numbers against Word tables, see [`docs/VERIFICATION.md`](VERIFICATION.md).

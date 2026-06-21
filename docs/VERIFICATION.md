@@ -1,10 +1,10 @@
 # Manuscript number verification
 
-Run from repository root (`submission/osf`):
+Run from repository root:
 
 ```bash
 make verify          # spot-checks only (verify_manuscript_numbers.R)
-make verify-all      # rebuild all R outputs + full R2 docx audit
+make verify-all      # rebuild all outputs + full manuscript docx audit
 ```
 
 **R-only verification:** `make verify-all` runs **`make all`** first (main + supplementary + figures), then Python only for docx extraction (`extract_manuscript_claims.py`), then all numeric comparison in R (`code/verify_all_manuscript.R`). There is no Python statistics re-analysis.
@@ -84,4 +84,4 @@ Supplementary Figure S1 uses **`CADSS_total_post_session2`** (ketamine post-bolu
 - `02_supplementary_revision.Rmd` HTML render requires **pandoc ≥ 1.12.3** (purl + source is used instead).
 - SPM first-level fMRI / cluster inference (Table S5 synced from committed `data/spm_ketamine_clusters_reference.csv`).
 - CADSS infusion-timing and arrow-task supplementary figures.
-- `text/npp_revision_2026/` may lag `revision/Final_files/`; sync before OSF upload.
+- Manuscript Word files are in `text/manuscript/`.

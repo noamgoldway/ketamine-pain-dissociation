@@ -2,51 +2,110 @@
 
 _Goldway et al._
 
-Repository: [github.com/noamgoldway/ketamine-pain-dissociation](https://github.com/noamgoldway/ketamine-pain-dissociation)
+This repository contains the analysis code and data needed to reproduce the statistical results in our ketamine–pain dissociation study ([Goldway et al., bioRxiv](https://www.biorxiv.org/content/10.1101/2025.07.25.666594v1)). It is meant for readers of the paper who want to rerun the models, inspect the tables, or build on the analysis pipeline.
 
----
+## What is included
 
-## Repository structure
+- **Behavioral and summary neuroimaging data** in `data/` (pain ratings, CADSS, NPS, ROI betas, connectivity matrices, demographics).
+- **R scripts** that fit the mixed models, post-hoc contrasts, Steiger tests, and supplementary analyses reported in the main text and supplement.
+- **Committed outputs** in `output/` (tables and figures corresponding to manuscript results).
+- **Manuscript files** in `text/manuscript/` (main text and supplementary information Word documents, for reference).
+
+fMRI preprocessing and first-level modeling are **not** part of this repository. ROI activations and connectivity were computed upstream; we provide the derived summaries used in the published analyses.
+
+## Quick start
+
+Clone the repository and run all analyses from the repository root:
+
+```bash
+git clone https://github.com/noamgoldway/ketamine-pain-dissociation.git
+cd ketamine-pain-dissociation
+
+R -e "install.packages('renv', repos = 'https://cloud.r-project.org')"
+R -e "renv::restore()"
+
+export ROOT_DIR="$(pwd)"
+make all
+```
+
+`make all` runs the main analysis, supplementary analyses, and supplementary figures S1–S3. Results are written to `output/tables/`, `output/figures/`, and `output/revision/`.
+
+To spot-check that key statistics match the manuscript tables:
+
+```bash
+make verify
+```
+
+## Repository layout
 
 ```
 ├── README.md
 ├── Makefile
-├── renv.lock                 # R package versions (optional but recommended)
-├── requirements.txt          # Python (optional; timing scripts not in submission scope)
-├── docs/
-│   ├── SUBMISSION_INVENTORY.md
-│   ├── REPRODUCTION_MANIFEST.md
-│   └── VERIFICATION.md
-├── data/                     # Analysis inputs (derived summaries, in git)
+├── renv.lock
+├── data/                 # Analysis inputs
 ├── code/
-│   ├── 00_pain_ketamine_analysis_legacy.r
-│   ├── 01_pain_ketamine_analysis_temp_covariate.r
-│   ├── 02_supplementary_revision.Rmd
-│   ├── verify_manuscript_numbers.R
-│   ├── verify_all_manuscript.R
-│   ├── extract_manuscript_claims.py   # docx inventory only (not statistics)
-│   └── revision/
-│       └── plot_dose_equivalence.R
+│   ├── 01_pain_ketamine_analysis_temp_covariate.r   # Main models & figures
+│   ├── 02_supplementary_revision.Rmd                # Steiger tests, ROI × temperature
+│   └── revision/                                    # Supplementary figure scripts
 ├── output/
-│   ├── tables/
-│   ├── figures/
-│   └── revision/             # NPP resubmission figures & Steiger tables
-└── text/
-    ├── Main.pdf              # Prior OSF main PDF
-    └── npp_revision_2026_r2/ # R2 Word snapshots (sync from revision/revesion_2/Final_files/)
+│   ├── tables/           # Main-text statistics
+│   ├── figures/          # Main-text figures
+│   └── revision/         # Supplementary tables & figures
+├── text/manuscript/      # Main text & supplementary Word files
+└── docs/                 # Additional documentation for full reproduction checks
 ```
 
-**Authoritative R2 submission files (Box):**  
-`/Users/noamgoldway/Library/CloudStorage/Box-Box/Goldway, Noam/tlvphd/manuscript-pain/revision/revesion_2/Final_files`
+## Reproducing the analyses
+
+All commands below are run from the repository root.
+
+### 1. Main analyses (pain, CADSS, NPS, ROI activation, connectivity)
+
+```bash
+make main
+```
+
+Equivalent: `Rscript code/01_pain_ketamine_analysis_temp_covariate.r`
+
+### 2. Supplementary analyses (Steiger tests, calibration-temperature models)
+
+```bash
+make supplementary
+```
+
+### 3. Supplementary Figure S1 (body weight vs. post-infusion CADSS)
+
+```bash
+make dose-equiv
+```
+
+### 4. Run everything
+
+```bash
+make all
+```
+
+For a detailed mapping between scripts, outputs, and manuscript tables, see [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md).
+
+## Data files
+
+| File | Description |
+|------|-------------|
+| `pain_ratings.csv` | Trial-level pain ratings |
+| `CADSS.csv` | Dissociation (CADSS) scores by session and time point |
+| `NPS.csv` | Neurophysiological pain signature scores |
+| `roi_beta_values_by_condition.csv` | ROI activation betas by condition |
+| `within_connectivity.xlsx` | Resting-state connectivity summaries |
+| `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
+| `demog.csv` | Demographics |
+| `participants.csv`, `prior_ketamine_use.csv` | Participant metadata |
+| `CADSS_Weight_DoseEquivalence_Data.csv` | Data for Supplementary Figure S1 |
 
 ## Installing dependencies
-
-**Run all commands from this directory** (repository root after clone).
 
 ### R (recommended: renv)
 
 ```bash
-cd submission/osf   # or repo root if you cloned ketamine-pain-dissociation directly
 R -e "install.packages('renv', repos = 'https://cloud.r-project.org')"
 R -e "renv::restore()"
 ```
@@ -60,76 +119,9 @@ install.packages(c(
 ))
 ```
 
-### Python (docx extraction only)
+### Python
 
-Required for `make extract-claims` / `make verify-all` (parses R2 Word files; no statistical re-analysis):
-
-```bash
-python3 code/extract_manuscript_claims.py
-```
-
-Optional: exploratory CADSS-timing scripts **not** in the submission inventory:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Reproducing the analyses
-
-Numbered steps match `docs/REPRODUCTION_MANIFEST.md`.
-
-### 1. Main behavioral and fMRI summary analyses
-
-```bash
-export ROOT_DIR="$(pwd)"
-make main
-# or: Rscript code/01_pain_ketamine_analysis_temp_covariate.r
-```
-
-Writes to `output/tables/` and `output/figures/`.
-
-Legacy pipeline (original submission, without calibration-temperature extensions):
-
-```bash
-Rscript code/00_pain_ketamine_analysis_legacy.r
-```
-
-### 2. Supplementary revision analyses (Steiger, ROI × calibration temperature)
-
-```bash
-make supplementary
-```
-
-Runs `code/02_supplementary_revision.Rmd` via `knitr::purl` (no pandoc required). Writes to `output/revision/tables/`.
-
-### 3. Supplementary Figure S1 (weight vs ketamine post-bolus CADSS)
-
-```bash
-make dose-equiv
-```
-
-Writes `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.{png,pdf}`.
-
-### All steps + verification
-
-```bash
-make sync-r2-final  # copy docx from revision/revesion_2/Final_files/
-make all            # optional if committed outputs are current
-make verify-all     # extract R2 docx claims + full R verification
-make check        # key revision files exist
-```
-
-See `docs/VERIFICATION.md` for statistics checked against `text/npp_revision_2026_r2/` (synced from Final_files).
-
-## Data
-
-Files in `data/` (see `docs/SUBMISSION_INVENTORY.md`):
-
-- `demog.csv`, `pain_ratings.csv`, `CADSS.csv`, `roi_beta_values_by_condition.csv`, `NPS.csv`
-- `pain_calibration.xlsx`, `within_connectivity.xlsx`
-- `participants.csv`, `prior_ketamine_use.csv`, `CADSS_Weight_DoseEquivalence_Data.csv`
-
-Unlike the Wise reference repo, Tier-1 inputs are **committed in git** (small derived CSVs) rather than downloaded via script.
+Python is **optional** and only needed if you want to run the full manuscript cross-check (`make verify-all`). The statistical analyses are entirely in R.
 
 ## Citation
 

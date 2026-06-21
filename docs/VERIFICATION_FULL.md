@@ -4,7 +4,7 @@ Generated from R outputs in `/Users/noamgoldway/Library/CloudStorage/Box-Box/Gol
 
 Pipeline: `make verify-all` runs **`make all`** (main + supplementary + figures + static sync) before numeric checks.
 
-Source docx: `text/npp_revision_2026_r2/`
+Source docx: `text/manuscript/`
 
 ## Summary
 

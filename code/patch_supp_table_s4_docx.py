@@ -23,7 +23,7 @@ DOCX = Path(
         FINAL_FILES / "Supplementary_Information_revision_clean.docx",
     )
 )
-R2_COPY = ROOT / "text" / "npp_revision_2026_r2" / "Supplementary_Information_revision_clean.docx"
+R2_COPY = ROOT / "text" / "manuscript" / "Supplementary_Information_revision_clean.docx"
 CSV = ROOT / "output" / "revision" / "tables" / "supp_table_s4_word_paste.csv"
 
 
