@@ -5,9 +5,9 @@ Maps manuscript tables and figures to scripts and output files. Run all commands
 | Manuscript asset | Reproducible | Script / step | Output path |
 |------------------|--------------|---------------|-------------|
 | Main-text figures | Yes | `make main` | `output/figures/` |
-| Supp Fig S1 (weight × post-bolus CADSS) | **Yes** | `make dose-equiv` | `output/supplementary/figures/Supplementary_Figure_S1_weight_cadss_submitted.*` |
-| Supp Fig S2 (ROI × calib temp) | **Yes** | `make supp-fig-s2` | `output/supplementary/figures/Supplementary_Figure_S2_roi_calib_temperature.*` |
-| Supp Fig S3 (connectivity) | Yes | `make main` + `make sync-s3` | `output/supplementary/figures/Supplementary_Figure_S3_connectivity.*` |
+| Supp Fig S1 (weight × post-bolus CADSS) | **Yes** | `make dose-equiv` | `output/supplementary/figures/Supplementary_Figure_S1_weight_cadss_submitted.png` |
+| Supp Fig S2 (ROI × calib temp) | **Yes** | `make supp-fig-s2` | `output/supplementary/figures/Supplementary_Figure_S2_roi_calib_temperature.png` |
+| Supp Fig S3 (connectivity) | Yes | `make main` + `make sync-s3` | `output/supplementary/figures/Supplementary_Figure_S3_connectivity.png` |
 | Supp Tables S1–S14 | Yes | `make main` + `make supplementary` | `output/tables/`, `output/supplementary/tables/` |
 | Steiger tests | Yes | `make supplementary` | `output/supplementary/tables/steiger_*.csv` |
 | Temp-adjusted models | Yes | `make main` | `output/tables/supp_table_tempadj_*`, `model_comparison_*` |

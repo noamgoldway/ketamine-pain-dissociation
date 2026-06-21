@@ -103,13 +103,6 @@ ggsave(
   dpi = 300,
   bg = "white"
 )
-ggsave(
-  filename = file.path(fig_dir, paste0(stem, ".pdf")),
-  plot = p,
-  width = 10,
-  height = 7,
-  bg = "white"
-)
 
 message(
   "Dose equivalence (CADSS_total_post_session2): n=", n_val,

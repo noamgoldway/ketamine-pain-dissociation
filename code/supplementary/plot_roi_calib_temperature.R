@@ -110,16 +110,14 @@ p <- ggplot(plot_df, aes(x = calib_temp, y = mean_beta_z, color = session)) +
 
 fig_dir <- file.path(repo_root, "output", "supplementary", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
-for (ext in c("png", "pdf")) {
-  ggsave(
-    file.path(fig_dir, paste0("Supplementary_Figure_S2_roi_calib_temperature.", ext)),
-    p,
-    width = 10,
-    height = 7,
-    dpi = 300,
-    bg = "white"
-  )
-}
+ggsave(
+  file.path(fig_dir, "Supplementary_Figure_S2_roi_calib_temperature.png"),
+  p,
+  width = 10,
+  height = 7,
+  dpi = 300,
+  bg = "white"
+)
 
 message(
   "S2 slopes: placebo=", sprintf("%.3f", session_slopes$calib_temp.trend[session_slopes$session == "placebo"]),
