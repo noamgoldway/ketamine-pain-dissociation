@@ -1,11 +1,11 @@
-# Run from repository root: make -C submission/osf  OR  cd submission/osf && make
+# Run from repository root: cd ketamine-pain-dissociation && make
 
 ROOT_DIR := $(CURDIR)
 export ROOT_DIR
 
-# Authoritative R2 Word files on Box (relative to submission/osf)
-FINAL_FILES := $(ROOT_DIR)/../../revision/revesion_2/Final_files
-R2_TEXT := $(ROOT_DIR)/text/npp_revision_2026_r2
+MANUSCRIPT_TEXT := $(ROOT_DIR)/text/manuscript
+# Optional local path for maintainers syncing Word files from a private working copy
+FINAL_FILES ?= $(ROOT_DIR)/../../revision/revesion_2/Final_files
 
 .PHONY: all main supplementary dose-equiv verify verify-all check sync-s3 sync-s5 supp-fig-s2 export-s1 export-s4 patch-s4-docx extract-claims sync-r2-final
 
@@ -14,16 +14,16 @@ all: main supplementary dose-equiv sync-s3 sync-s5 supp-fig-s2 export-s4
 extract-claims:
 	python3 code/extract_manuscript_claims.py
 
-# Copy authoritative R2 docx from Box Final_files into text/npp_revision_2026_r2/
+# Maintainer only: copy manuscript docx from a local Final_files folder into text/manuscript/
 sync-r2-final:
 	@test -d "$(FINAL_FILES)" || (echo "Missing Final_files: $(FINAL_FILES)" && exit 1)
-	@mkdir -p "$(R2_TEXT)"
-	cp -f "$(FINAL_FILES)/Main_R2.docx" "$(R2_TEXT)/" 2>/dev/null || true
-	cp -f "$(FINAL_FILES)/Main_R2_tc.docx" "$(R2_TEXT)/"
-	cp -f "$(FINAL_FILES)/Supplementary_Information_revision_clean.docx" "$(R2_TEXT)/"
-	cp -f "$(FINAL_FILES)/Rebuttal_R2.docx" "$(R2_TEXT)/"
-	@echo "Synced R2 Final_files → $(R2_TEXT)"
-	@ls -la "$(R2_TEXT)"
+	@mkdir -p "$(MANUSCRIPT_TEXT)"
+	cp -f "$(FINAL_FILES)/Main_R2.docx" "$(MANUSCRIPT_TEXT)/" 2>/dev/null || true
+	cp -f "$(FINAL_FILES)/Main_R2_tc.docx" "$(MANUSCRIPT_TEXT)/"
+	cp -f "$(FINAL_FILES)/Supplementary_Information_revision_clean.docx" "$(MANUSCRIPT_TEXT)/"
+	cp -f "$(FINAL_FILES)/Rebuttal_R2.docx" "$(MANUSCRIPT_TEXT)/"
+	@echo "Synced Final_files → $(MANUSCRIPT_TEXT)"
+	@ls -la "$(MANUSCRIPT_TEXT)"
 
 export-s4:
 	ROOT_DIR="$(ROOT_DIR)" Rscript code/export_supp_table_s4.R

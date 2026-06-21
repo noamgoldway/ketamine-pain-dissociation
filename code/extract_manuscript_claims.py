@@ -36,11 +36,11 @@ def repo_root() -> Path:
 
 
 def docx_paths(root: Path) -> dict[str, Path]:
-    r2 = root / "text" / "npp_revision_2026_r2"
+    manuscript = root / "text" / "manuscript"
     return {
-        "main": r2 / "Main_R2_tc.docx",
-        "supplementary": r2 / "Supplementary_Information_revision_clean.docx",
-        "rebuttal": r2 / "Rebuttal_R2.docx",
+        "main": manuscript / "Main_R2_tc.docx",
+        "supplementary": manuscript / "Supplementary_Information_revision_clean.docx",
+        "rebuttal": manuscript / "Rebuttal_R2.docx",
     }
 
 

@@ -1,53 +1,35 @@
-# NPP revision submission inventory (R2)
+# Data and output inventory
 
-## Authoritative submission files (Box)
+Analysis inputs in `data/` and committed outputs in `output/`.
 
-**Source of truth for what gets submitted:**
+## Analysis inputs (`data/`)
 
-`/Users/noamgoldway/Library/CloudStorage/Box-Box/Goldway, Noam/tlvphd/manuscript-pain/revision/revesion_2/Final_files`
+| File | Description |
+|------|-------------|
+| `pain_ratings.csv` | Trial-level pain ratings |
+| `CADSS.csv` | CADSS scores by session and time point |
+| `NPS.csv` | Neurophysiological pain signature scores |
+| `roi_beta_values_by_condition.csv` | ROI activation betas |
+| `within_connectivity.xlsx` | Functional connectivity summaries |
+| `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
+| `demog.csv` | Demographics |
+| `participants.csv` | Participant IDs and metadata |
+| `prior_ketamine_use.csv` | Prior ketamine exposure |
+| `CADSS_Weight_DoseEquivalence_Data.csv` | Supplementary Figure S1 |
+| `connectivity_roi_list.csv` | ROI list for connectivity analyses |
+| `spm_ketamine_clusters_reference.csv` | Reference clusters for Supplementary Table S5 |
 
-| File | Role |
-|------|------|
-| `Main_R2.docx` | Main manuscript (clean) |
-| `Main_R2_tc.docx` | Main manuscript (track-changes export) |
-| `Supplementary_Information_revision_clean.docx` | Supplementary Information |
-| `Rebuttal_R2.docx` | Response to reviewers (round 2) |
+## Manuscript files (`text/manuscript/`)
 
-Sync into this repo for verification:
+Main text and supplementary information Word documents, used as reference for `make verify-all`.
 
-```bash
-make sync-r2-final    # copies Final_files → text/npp_revision_2026_r2/
-make patch-s4-docx    # if Table S4 needs refresh from R
-make verify-all
-```
+## Key outputs
 
-## Git snapshot (verification copies)
+| Output | Script |
+|--------|--------|
+| `output/tables/` | `make main` |
+| `output/figures/` | `make main` |
+| `output/revision/tables/` | `make supplementary`, `make export-s4` |
+| `output/revision/figures/` | `make dose-equiv`, `make supp-fig-s2`, `make sync-s3` |
 
-[`text/npp_revision_2026_r2/`](../text/npp_revision_2026_r2/) — working copies used by `make extract-claims` and `make verify-all`. **Not authoritative** until synced from `Final_files/` above.
-
-Legacy R1 snapshots remain in `text/npp_revision_2026/`.
-
-## Main manuscript figures
-
-| Asset | Committed output |
-|-------|------------------|
-| Figure 1–4 | `output/revision/figures/Main_Figure_{1-4}.pdf` |
-
-## Supplementary figures
-
-| Asset | Reproducible | Committed output |
-|-------|--------------|------------------|
-| S1 (weight × post-bolus CADSS) | Yes | `output/revision/figures/Figure_S_dose_equivalence_weight_cadss.*` |
-| S2 (ROI × calib temp) | Yes | `make supp-fig-s2` | `output/revision/figures/Supplementary_Figure_S2_roi_calib_temperature.*` |
-| S3 (connectivity) | Yes | `output/revision/figures/Supplementary_Figure_S3_connectivity.*` |
-
-## Supplementary tables S1–S14
-
-See [`TABLE_MANIFEST.yaml`](TABLE_MANIFEST.yaml) and [`REPRODUCTION_MANIFEST.md`](REPRODUCTION_MANIFEST.md).
-
-Verification: `make verify-all` (full cell + in-text checks against R2 docx).
-
-## Out of repo scope
-
-- Exploratory `revision/tables/` bulk exports not cited in R2 Final_files
-- Raw DICOM / fMRIPrep / first-level fMRI
+Verification: `make verify` (spot-check) or `make verify-all` (full cross-check). See [`VERIFICATION.md`](VERIFICATION.md).
