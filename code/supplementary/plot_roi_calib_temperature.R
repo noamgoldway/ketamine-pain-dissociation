@@ -61,7 +61,7 @@ session_slopes <- plot_df %>%
   }) %>%
   ungroup()
 
-tab_dir <- file.path(repo_root, "output", "revision", "tables")
+tab_dir <- file.path(repo_root, "output", "supplementary", "tables")
 dir.create(tab_dir, recursive = TRUE, showWarnings = FALSE)
 write_csv(session_slopes, file.path(tab_dir, "supp_fig_s2_session_slopes.csv"))
 
@@ -108,7 +108,7 @@ p <- ggplot(plot_df, aes(x = calib_temp, y = mean_beta_z, color = session)) +
     axis.title = element_text(face = "bold")
   )
 
-fig_dir <- file.path(repo_root, "output", "revision", "figures")
+fig_dir <- file.path(repo_root, "output", "supplementary", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 for (ext in c("png", "pdf")) {
   ggsave(

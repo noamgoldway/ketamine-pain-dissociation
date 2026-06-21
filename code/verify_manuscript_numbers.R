@@ -14,7 +14,7 @@ if (!nzchar(repo_root)) {
 repo_root <- normalizePath(repo_root, mustWork = FALSE)
 
 data_dir <- file.path(repo_root, "data")
-tab_dir <- file.path(repo_root, "output", "revision", "tables")
+tab_dir <- file.path(repo_root, "output", "supplementary", "tables")
 main_tab <- file.path(repo_root, "output", "tables")
 
 checks <- list()

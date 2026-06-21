@@ -14,7 +14,7 @@ repo_root <- if (length(file_arg)) {
   normalizePath(getwd(), mustWork = TRUE)
 }
 data_path <- file.path(repo_root, "data", "CADSS_Weight_DoseEquivalence_Data.csv")
-fig_dir <- file.path(repo_root, "output", "revision", "figures")
+fig_dir <- file.path(repo_root, "output", "supplementary", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Ketamine post-bolus CADSS (session 2); matches manuscript caption (r ~ 0.04, p ~ 0.86).

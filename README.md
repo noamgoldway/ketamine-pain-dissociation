@@ -36,12 +36,12 @@ make verify
 ├── data/
 ├── code/
 │   ├── 01_pain_ketamine_analysis_temp_covariate.r
-│   ├── 02_supplementary_revision.Rmd
-│   └── revision/
+│   ├── 02_supplementary.Rmd
+│   └── supplementary/
 ├── output/
 │   ├── tables/
 │   ├── figures/
-│   └── revision/
+│   └── supplementary/
 ├── text/manuscript/
 └── docs/REPRODUCTION_MANIFEST.md
 ```
@@ -51,8 +51,8 @@ make verify
 | Step | Command | Output |
 |------|---------|--------|
 | Main analyses | `make main` | `output/tables/`, `output/figures/` |
-| Supplementary analyses | `make supplementary` | `output/revision/tables/` |
-| Supplementary Figure S1 | `make dose-equiv` | `output/revision/figures/` |
+| Supplementary analyses | `make supplementary` | `output/supplementary/tables/` |
+| Supplementary Figure S1 | `make dose-equiv` | `output/supplementary/figures/` |
 | Everything | `make all` | All of the above |
 
 See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full mapping of scripts to manuscript tables and figures.
@@ -67,8 +67,8 @@ See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for a full 
 | `roi_beta_values_by_condition.csv` | ROI activation betas by condition |
 | `within_connectivity.xlsx` | Resting-state connectivity summaries |
 | `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
-| `demog.csv` | Demographics |
-| `participants.csv`, `prior_ketamine_use.csv` | Participant metadata |
+| `demog.csv` | Demographics (age, gender) |
+| `participants.csv` | Participant IDs and body weight |
 | `CADSS_Weight_DoseEquivalence_Data.csv` | Data for Supplementary Figure S1 |
 
 ## Installing dependencies

@@ -1,37 +1,37 @@
-participant_id,weight_kg,gender,age_years,n_sessions,days_between_sessions,gender_code,prior_ketamine_use,ketamine_context,ketamine_frequency,ketamine_route,ketamine_effects
-sub-0435,61,Female,28.0,2.0,35.0,1.0,1.0,Other/Unspecified,Unspecified,Oral,Not specified
-sub-0614,59,Female,27.0,2.0,23.0,1.0,1.0,Social,Unspecified,Unspecified,Not specified
-sub-0642,62,Male,35.0,2.0,51.0,0.0,1.0,Other/Unspecified,Once,Unspecified,Not specified
-sub-0839,51,Female,31.0,1.0,,1.0,0.0,,,,
-sub-0863,66,Female,34.0,2.0,7.0,1.0,0.0,,,,
-sub-0991,50,Female,30.0,2.0,16.0,1.0,0.0,,,,
-sub-1137,81,Female,32.0,2.0,81.0,1.0,1.0,Social,Unspecified,Unspecified,Not specified
-sub-1175,59,Female,30.0,2.0,33.0,1.0,1.0,Social,Multiple occasions,Unspecified,Not specified
-sub-1405,74,Female,25.0,2.0,7.0,1.0,0.0,,,,
-sub-2060,66,Male,24.0,2.0,21.0,0.0,0.0,,,,
-sub-2494,62,Male,32.0,2.0,11.0,0.0,0.0,,,,
-sub-2711,60,Female,28.0,1.0,,1.0,,,,,
-sub-2910,58,,,1.0,,,,,,,
-sub-3440,72,Male,34.0,2.0,25.0,0.0,1.0,Social,Few times,Unspecified,Not specified
-sub-3571,64,Male,33.0,2.0,18.0,0.0,1.0,Other/Unspecified,Unspecified,Unspecified,Not specified
-sub-3911,54,Male,36.0,2.0,13.0,0.0,0.0,,,,
-sub-4292,80,,,,,,,,,,
-sub-4900,53,Female,28.0,1.0,,1.0,1.0,Other/Unspecified,Once,Unspecified,Not specified
-sub-5005,59,Male,26.0,2.0,,0.0,0.0,,,,
-sub-5045,68,,,1.0,,,,,,,
-sub-5071,65,Female,26.0,2.0,17.0,1.0,1.0,Social,Unspecified,Unspecified,Not specified
-sub-5407,59,Male,33.0,2.0,18.0,0.0,0.0,,,,
-sub-5643,81,,,,,,,,,,
-sub-5756,51,,,,,,,,,,
-sub-6572,55,,,,,,,,,,
-sub-6684,72,Male,25.0,1.0,,0.0,1.0,Medical,Unspecified,Unspecified,Not specified
-sub-7826,52,Female,29.0,2.0,24.0,1.0,0.0,,,,
-sub-8295,61,Male,32.0,2.0,23.0,0.0,1.0,Social,Few times,Unspecified,Not specified
-sub-8298,71,Male,30.0,2.0,9.0,0.0,1.0,Other/Unspecified,Occasional,Unspecified,Not specified
-sub-8446,71,Male,31.0,2.0,7.0,0.0,1.0,Other/Unspecified,Once,Unspecified,Positive
-sub-8754,63,Male,29.0,2.0,14.0,0.0,1.0,Social,Unspecified,Unspecified,Not specified
-sub-9018,47,Female,31.0,2.0,30.0,1.0,1.0,Social,Once,Unspecified,Not specified
-sub-9235,43,Female,27.0,2.0,23.0,1.0,0.0,,,,
-sub-9501,65,Male,31.0,2.0,50.0,0.0,0.0,,,,
-sub-9616,53,Female,26.0,2.0,8.0,1.0,1.0,Social,Unspecified,Unspecified,Not specified
-sub-9653,50,Female,27.0,2.0,37.0,1.0,0.0,,,,
+participant_id,weight_kg
+sub-0435,61
+sub-0614,59
+sub-0642,62
+sub-0839,51
+sub-0863,66
+sub-0991,50
+sub-1137,81
+sub-1175,59
+sub-1405,74
+sub-2060,66
+sub-2494,62
+sub-2711,60
+sub-2910,58
+sub-3440,72
+sub-3571,64
+sub-3911,54
+sub-4292,80
+sub-4900,53
+sub-5005,59
+sub-5045,68
+sub-5071,65
+sub-5407,59
+sub-5643,81
+sub-5756,51
+sub-6572,55
+sub-6684,72
+sub-7826,52
+sub-8295,61
+sub-8298,71
+sub-8446,71
+sub-8754,63
+sub-9018,47
+sub-9235,43
+sub-9501,65
+sub-9616,53
+sub-9653,50

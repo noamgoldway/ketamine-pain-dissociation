@@ -13,7 +13,7 @@ library(psych)
 
 root_dir <- normalizePath("..", mustWork = TRUE)
 data_dir <- file.path(root_dir, "data")
-tables_dir <- file.path(root_dir, "output", "revision", "tables")
+tables_dir <- file.path(root_dir, "output", "supplementary", "tables")
 dir.create(tables_dir, recursive = TRUE, showWarnings = FALSE)
 
 afex::set_sum_contrasts()
