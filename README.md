@@ -1,16 +1,10 @@
 # The Analgesic and Dissociative Properties of Ketamine are Separate and Correspond to Distinct Neural Mechanisms
 
-_Goldway et al. — analysis code and derived data for the NPP revision resubmission._
+_Goldway et al._
 
 Repository: [github.com/noamgoldway/ketamine-pain-dissociation](https://github.com/noamgoldway/ketamine-pain-dissociation)
 
-Submitted manuscripts: authoritative copies on Box at `revision/revesion_2/Final_files/`; git snapshots in [`text/npp_revision_2026_r2/`](text/npp_revision_2026_r2/) (sync with `make sync-r2-final`).
-
 ---
-
-This repository reproduces **Tier 1** analyses from derived CSVs (behavioral ratings, ROI betas, CADSS, NPS, connectivity summaries). fMRI preprocessing is upstream of the files in `data/`.
-
-Layout follows [tobywise/interactive-avoidance-mental-health_public](https://github.com/tobywise/interactive-avoidance-mental-health_public): clear structure, install instructions, and **numbered reproduction steps**.
 
 ## Repository structure
 
@@ -137,10 +131,6 @@ Files in `data/` (see `docs/SUBMISSION_INVENTORY.md`):
 
 Unlike the Wise reference repo, Tier-1 inputs are **committed in git** (small derived CSVs) rather than downloaded via script.
 
-## What is not rebuilt here
-
-See `docs/SUBMISSION_INVENTORY.md`. Supplementary Figure S2 is rebuilt by `make supp-fig-s2`. CADSS infusion-timing and arrow-task figures are out of scope.
-
 ## Citation
 
-If you use this code, please cite the paper (preprint/manuscript as available).
+Goldway, Noam, Talma Hendler, Itamar Jalon, Yotam Pasternak, Roy Sar-El, Dan Mirelman, Noam Sarna, Nili Green, Yara Agbaria, and Haggai Sharon. "The Analgesic and Dissociative Properties of Ketamine are Separate and Correspond to Distinct Neural Mechanisms." *bioRxiv* (2025): 2025-07.
