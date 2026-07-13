@@ -130,16 +130,13 @@ p_stars <- function(p) dplyr::case_when(
 )
 
 # ------------------------------ 3. Data In -----------------------------------
-# Subject ID vectors -----------------------------------------------------------
-
-both_sessions <- c("0614", "0839", "0863", "0991", "1008", "1137", "1175", "1405", "1842", "2060",
-                   "2494", "2711", "3440", "3571", "3911", "5005", "5071", "5407", "7826", "7856",
-                   "8295", "8298", "8446", "8754", "9018", "9235", "9364", "9501", "9616", "9653")
-
 # Demographics -----------------------------------------------------------------
-demog <- readr::read_csv(file.path(PATHS$data, "demog.csv"))
+demog <- readr::read_csv(file.path(PATHS$data, "demog.csv"), show_col_types = FALSE)
 
-demog_both <- demog %>% filter(subji %in% as.numeric(both_sessions))
+completed_full_procedure_ids <- readr::read_csv(file.path(PATHS$data, "CADSS.csv"), show_col_types = FALSE) %>%
+  dplyr::pull(subji)
+
+demog_both <- demog %>% filter(subji %in% completed_full_procedure_ids)
 
 summary_all  <- get_demog_summary(demog)
 summary_both <- get_demog_summary(demog_both)

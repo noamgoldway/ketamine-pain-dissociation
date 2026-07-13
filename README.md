@@ -66,8 +66,8 @@ See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for script-
 | `roi_beta_values_by_condition.csv` | ROI activation betas by condition |
 | `within_connectivity.xlsx` | Pain-task within-network connectivity summaries |
 | `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
-| `demog.csv` | Demographics (age, gender) for all 43 participants |
-| `participants.csv` | Participant IDs and body weight |
+| `demog.csv` | Demographics (age, gender) for the 37 enrolled participants |
+| `participants.csv` | Participant IDs and body weight where available |
 | `CADSS_Weight_DoseEquivalence_Data.csv` | Body weight and post-bolus CADSS (supplementary figure) |
 
 ## Installing dependencies
