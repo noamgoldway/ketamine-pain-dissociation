@@ -41,6 +41,20 @@ fail("S1_n", 28, nrow(we), tol = 0)
 fail("S1_pearson_r", 0.04, unname(ct$estimate), tol = 0.01)
 fail("S1_pearson_p", 0.86, ct$p.value, tol = 0.02)
 
+# --- Demographics: age/gender summaries for all included participants and full-procedure completers ---
+dem_all <- read_csv(file.path(main_tab, "demographics_all.csv"), show_col_types = FALSE)
+dem_both <- read_csv(file.path(main_tab, "demographics_both.csv"), show_col_types = FALSE)
+fail("demog_all_n", 43, dem_all$N[1], tol = 0)
+fail("demog_all_mean_age", 29.79, dem_all$mean_age[1], tol = 0.01)
+fail("demog_all_sd_age", 3.45, dem_all$sd_age[1], tol = 0.01)
+fail("demog_all_male", 18, dem_all$gender_1[1], tol = 0)
+fail("demog_all_female", 25, dem_all$gender_2[1], tol = 0)
+fail("demog_both_n", 30, dem_both$N[1], tol = 0)
+fail("demog_both_mean_age", 29.97, dem_both$mean_age[1], tol = 0.01)
+fail("demog_both_sd_age", 3.08, dem_both$sd_age[1], tol = 0.01)
+fail("demog_both_male", 14, dem_both$gender_1[1], tol = 0)
+fail("demog_both_female", 16, dem_both$gender_2[1], tol = 0)
+
 # --- Demographics: mean weight 61.6 ± 9.4 kg (n may be 36 enrolled vs 28 in some analyses) ---
 pw <- read_csv(file.path(data_dir, "participants.csv"), show_col_types = FALSE)
 fail("demog_weight_mean", 61.6, mean(pw$weight_kg, na.rm = TRUE), tol = 0.15)
@@ -50,6 +64,12 @@ fail("demog_weight_sd", 9.4, sd(pw$weight_kg, na.rm = TRUE), tol = 0.15)
 steiger <- read_csv(file.path(tab_dir, "steiger_roi_session_corr_diff.csv"), show_col_types = FALSE)
 fail("steiger_min_p_above_0.11", 1, as.numeric(min(steiger$p) > 0.11))
 fail("steiger_dlPFC_p", 0.1139, steiger$p[steiger$ROI == "Right dlPFC"])
+
+# --- DMN-CADSS subscale correlation: derealization rho .58, p = .001 ---
+dmn_sub <- read_csv(file.path(main_tab, "dmn_cadss_subscale_corrs.csv"), show_col_types = FALSE)
+dereal <- dmn_sub %>% filter(subscale == "derealisation")
+fail("dmn_dereal_rho", 0.58, dereal$r[1], tol = 0.01)
+fail("dmn_dereal_p", 0.001, dereal$p[1], tol = 0.001)
 
 # --- Pain model calib_temp p = 0.070 (supp table) ---
 pain_m <- read_csv(file.path(main_tab, "supp_table_tempadj_pain_model.csv"), show_col_types = FALSE)

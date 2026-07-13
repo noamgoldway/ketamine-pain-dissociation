@@ -64,9 +64,9 @@ See [`docs/REPRODUCTION_MANIFEST.md`](docs/REPRODUCTION_MANIFEST.md) for script-
 | `CADSS.csv` | Dissociation (CADSS) scores by session and time point |
 | `NPS.csv` | Neurological Pain Signature (NPS) scores |
 | `roi_beta_values_by_condition.csv` | ROI activation betas by condition |
-| `within_connectivity.xlsx` | Resting-state connectivity summaries |
+| `within_connectivity.xlsx` | Pain-task within-network connectivity summaries |
 | `pain_calibration.xlsx` | Calibration temperatures and pain slopes |
-| `demog.csv` | Demographics (age, gender) |
+| `demog.csv` | Demographics (age, gender) for all 43 participants |
 | `participants.csv` | Participant IDs and body weight |
 | `CADSS_Weight_DoseEquivalence_Data.csv` | Body weight and post-bolus CADSS (supplementary figure) |
 
